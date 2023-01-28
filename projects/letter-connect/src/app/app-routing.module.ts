@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './shared/page-not-found/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 const routes: Routes = [
     {
@@ -10,13 +10,11 @@ const routes: Routes = [
     },
     {
         path: 'home',
-        loadChildren: () =>
-            import('./home/home.module').then((m) => m.HomeModule),
+        loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
     },
     {
         path: 'game',
-        loadChildren: () =>
-            import('./game/game.module').then((m) => m.GameModule),
+        loadChildren: () => import('./game/game.module').then((m) => m.GameModule),
     },
     {
         path: '**',
