@@ -30,7 +30,6 @@
               "projects/letter-connect/src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/purple-green.css",
               "projects/letter-connect/src/styles.scss"
             ],
             "scripts": []
