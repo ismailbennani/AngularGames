@@ -1,2 +1,4 @@
-<app-crossword></app-crossword>
+<ng-container *ngIf="gameState">
+<app-game-grid [grid]="gameState.currentLevel.grid"></app-game-grid>
 <app-letters></app-letters>
+</ng-container>

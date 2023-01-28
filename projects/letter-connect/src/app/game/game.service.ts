@@ -15,7 +15,7 @@ export class GameService {
     }
 
     constructor() {
-        this.state = createNewGame({ words: [] });
+        this.state = createNewGame({ words: [], letters: [] });
         this.notify();
     }
 
