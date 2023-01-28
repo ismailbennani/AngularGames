@@ -29,7 +29,8 @@
     density: 0,
   ));
 
-  @include mat.all-component-colors($mat-theme)
+  @include mat.all-component-colors($mat-theme);
+  @include set-light-variables($theme);
 }
 
 @mixin set-dark-theme($theme) {
@@ -43,5 +44,52 @@
     density: 0,
   ));
 
-  @include mat.all-component-colors($mat-theme)
+  @include mat.all-component-colors($mat-theme);
+  @include set-dark-variables($theme);
+}
+
+@mixin set-light-variables($theme) {
+  --bg-neutral: white;
+  --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
+  --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+
+  --border-neutral: grey;
+  --border-primary: #{map.get(map.get($theme, "primary-palette"), 800)};
+  --border-accent: #{map.get(map.get($theme, "accent-palette"), 800)};
+  --border-warn: #{map.get(map.get($theme, "warn-palette"), 800)};
+
+  --text-neutral: slategrey;
+
+  --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
+
+  --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
+  --text-on-accent: #{map.get(map.get($theme, "accent-palette"), 100)};
+
+  --text-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+  --text-on-warn: #{map.get(map.get($theme, "warn-palette"), 100)};
+}
+
+@mixin set-dark-variables($theme) {
+  --bg-neutral: slategrey;
+  --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
+  --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+
+  --border-neutral: black;
+  --border-primary: #{map.get(map.get($theme, "primary-palette"), 800)};
+  --border-accent: #{map.get(map.get($theme, "accent-palette"), 800)};
+  --border-warn: #{map.get(map.get($theme, "warn-palette"), 800)};
+
+  --text-neutral: white;
+
+  --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
+
+  --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
+  --text-on-accent: #{map.get(map.get($theme, "accent-palette"), 100)};
+
+  --text-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+  --text-on-warn: #{map.get(map.get($theme, "warn-palette"), 100)};
 }

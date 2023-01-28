@@ -2,5 +2,5 @@
 @use "themes/default-theme.scss";
 
 .default-theme {
-  @include mixins.set-light-theme(default-theme.$theme);
+  @include mixins.set-dark-theme(default-theme.$theme);
 }
