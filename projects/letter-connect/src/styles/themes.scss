@@ -4,5 +4,5 @@
 @include mixins.set-common-theme();
 
 .default-theme {
-  @include mixins.set-dark-theme(default-theme.$theme);
+  @include mixins.set-light-theme(default-theme.$theme);
 }

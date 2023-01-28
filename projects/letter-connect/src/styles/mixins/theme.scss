@@ -85,6 +85,7 @@
   --text-neutral: white;
 
   --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --text-secondary: #{map.get(map.get($theme, "primary-palette"), 200)};
   --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
 
   --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
