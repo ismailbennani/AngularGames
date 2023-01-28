@@ -1,6 +1,8 @@
 @use "mixins/mixins.scss";
 @use "themes/default-theme.scss";
 
+@include mixins.set-common-theme();
+
 .default-theme {
   @include mixins.set-dark-theme(default-theme.$theme);
 }
