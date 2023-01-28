@@ -1,0 +1,6 @@
+@use "mixins/mixins.scss";
+@use "themes/default-theme.scss";
+
+.default-theme {
+  @include mixins.set-light-theme(default-theme.$theme);
+}
