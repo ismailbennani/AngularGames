@@ -7,11 +7,8 @@ export interface GameState {
     readonly currentLevel: GameLevelState;
 }
 
-export const createNewGame = (settings?: Partial<CrosswordGeneratorSettings>): GameState | null => {
+export const createNewGame = (settings?: Partial<CrosswordGeneratorSettings>): GameState => {
     const currentLevel = createLevelState(settings);
-    if (!currentLevel) {
-        return null;
-    }
 
     return {
         settings,

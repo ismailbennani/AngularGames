@@ -1,33 +1,37 @@
 import { Bounds, boundsOverlap, Crossword, Word } from './crossword';
 
-export const generateCrossword = (settings: CrosswordGeneratorSettings): Crossword | null => {
+export const generateCrossword = (settings: CrosswordGeneratorSettings): Crossword => {
     const normalizedLetters = normalizeWord(''.concat(...settings.letters));
     const validWords = settings.dictionary.filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
 
-    const alreadySelected = new Set<number>();
+    const alreadyTried = new Set<number>();
     const words: Word[] = [];
-    const maxTries = 10;
+    const maxTries = 10000;
 
     let horiz = true;
-    let tries = 10000;
-    while (words.length < settings.maxNumberOfWords && tries < maxTries) {
+    let tries = 0;
+    while (words.length < settings.maxNumberOfWords && alreadyTried.size < validWords.length && tries < maxTries) {
         const wordIndex = Math.floor(Math.random() * validWords.length);
-        if (alreadySelected.has(wordIndex)) {
+        if (alreadyTried.has(wordIndex)) {
             continue;
         }
+
+        alreadyTried.add(wordIndex);
 
         const word = validWords[wordIndex];
         const bounds: Bounds[] = getValidBounds(words, word, horiz);
 
+        if (!bounds.length) {
+            continue;
+        }
+
         words.push({ word: validWords[wordIndex], horiz: horiz, bounds: bounds[0] });
 
         horiz = !horiz;
-
-        break;
     }
 
     if (words.length < settings.minNumberOfWords) {
-        return null;
+        throw new Error(`Could not generate enough words (${words.length}/${settings.minNumberOfWords})`);
     }
 
     return { words, letters: settings.letters };

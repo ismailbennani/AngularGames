@@ -23,11 +23,8 @@ export interface GameGridCell {
     readonly discovered: boolean;
 }
 
-export const createLevelState = (settings?: Partial<CrosswordGeneratorSettings>): GameLevelState | null => {
+export const createLevelState = (settings?: Partial<CrosswordGeneratorSettings>): GameLevelState => {
     const crossword = generateCrossword({ ...DEFAULT_CROSSWORD_GENERATOR_SETTINGS, ...(settings ?? {}) });
-    if (!crossword) {
-        return null;
-    }
 
     return {
         crossword,
