@@ -1,44 +1,44 @@
-@use "../../../styles/mixins/mixins";
+@use '../../../styles/mixins/mixins';
 
 :host {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-
-  .top {
     display: flex;
+    flex-direction: column;
     align-items: stretch;
     justify-content: center;
 
-    padding: mixins.size(5);
+    .top {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
 
-    height: 66%;
+        padding: mixins.size(5);
 
-    app-game-grid {
-      flex-grow: 1;
+        height: 66%;
+
+        app-game-grid {
+            flex-grow: 1;
+        }
     }
-  }
 
-  .separator {
-    flex-grow: 1;
-  }
+    .separator {
+        flex-grow: 1;
+    }
 
-  .bottom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    height: 33%;
-  }
+        height: 33%;
+    }
 }
 
 button {
-  width: 50% !important;
-  height: 20% !important;
+    width: 50% !important;
+    height: 20% !important;
 
-  font-size: 32px;
+    font-size: 32px;
 }

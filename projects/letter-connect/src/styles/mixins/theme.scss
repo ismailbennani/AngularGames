@@ -1,102 +1,107 @@
-@use "sass:map";
-@use "@angular/material" as mat;
+@use 'sass:map';
+@use '@angular/material' as mat;
 
 @mixin set-common-theme() {
+    $primary: mat.define-palette(mat.$indigo-palette, 500);
+    $accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
-  $primary: mat.define-palette(mat.$indigo-palette, 500);
-  $accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+    $theme: mat.define-light-theme(
+        (
+            color: (
+                primary: $primary,
+                accent: $accent,
+            ),
+            density: 0,
+        )
+    );
 
-  $theme: mat.define-light-theme((
-    color: (
-      primary: $primary,
-      accent: $accent,
-    ),
-    density: 0,
-  ));
-
-  @include mat.core();
-  @include mat.all-component-themes($theme);
+    @include mat.core();
+    @include mat.all-component-themes($theme);
 }
 
 @mixin set-light-theme($theme) {
-  $mat-theme: mat.define-light-theme((
-    color: (
-      primary: map.get($theme, "primary-palette"),
-      accent: map.get($theme, "accent-palette"),
-      warn: map.get($theme, "warn-palette"),
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  ));
+    $mat-theme: mat.define-light-theme(
+        (
+            color: (
+                primary: map.get($theme, 'primary-palette'),
+                accent: map.get($theme, 'accent-palette'),
+                warn: map.get($theme, 'warn-palette'),
+            ),
+            typography: mat.define-typography-config(),
+            density: 0,
+        )
+    );
 
-  @include mat.all-component-colors($mat-theme);
-  @include set-light-variables($theme);
+    @include mat.all-component-colors($mat-theme);
+    @include set-light-variables($theme);
 }
 
 @mixin set-dark-theme($theme) {
-  $mat-theme: mat.define-dark-theme((
-    color: (
-      primary: map.get($theme, "primary-palette"),
-      accent: map.get($theme, "accent-palette"),
-      warn: map.get($theme, "warn-palette"),
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  ));
+    $mat-theme: mat.define-dark-theme(
+        (
+            color: (
+                primary: map.get($theme, 'primary-palette'),
+                accent: map.get($theme, 'accent-palette'),
+                warn: map.get($theme, 'warn-palette'),
+            ),
+            typography: mat.define-typography-config(),
+            density: 0,
+        )
+    );
 
-  @include mat.all-component-colors($mat-theme);
-  @include set-dark-variables($theme);
+    @include mat.all-component-colors($mat-theme);
+    @include set-dark-variables($theme);
 }
 
 @mixin set-light-variables($theme) {
-  --bg-neutral: white;
-  --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
-  --bg-secondary: #{map.get(map.get($theme, "primary-palette"), 100)};
-  --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
-  --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+    --bg-neutral: white;
+    --bg-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
+    --bg-secondary: #{map.get(map.get($theme, 'primary-palette'), 100)};
+    --bg-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
+    --bg-warn: #{map.get(map.get($theme, 'warn-palette'), 500)};
 
-  --border-neutral: grey;
-  --border-primary: #{map.get(map.get($theme, "primary-palette"), 800)};
-  --border-accent: #{map.get(map.get($theme, "accent-palette"), 800)};
-  --border-warn: #{map.get(map.get($theme, "warn-palette"), 800)};
+    --border-neutral: grey;
+    --border-primary: #{map.get(map.get($theme, 'primary-palette'), 800)};
+    --border-accent: #{map.get(map.get($theme, 'accent-palette'), 800)};
+    --border-warn: #{map.get(map.get($theme, 'warn-palette'), 800)};
 
-  --text-neutral: slategrey;
+    --text-neutral: slategrey;
 
-  --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
-  --text-secondary: #{map.get(map.get($theme, "primary-palette"), 200)};
-  --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
+    --text-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
+    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
+    --text-on-primary: #{map.get(map.get($theme, 'primary-palette'), 100)};
 
-  --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
-  --text-on-accent: #{map.get(map.get($theme, "accent-palette"), 100)};
+    --text-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
+    --text-on-accent: #{map.get(map.get($theme, 'accent-palette'), 100)};
 
-  --text-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
-  --text-on-warn: #{map.get(map.get($theme, "warn-palette"), 100)};
+    --text-warn: #{map.get(map.get($theme, 'warn-palette'), 500)};
+    --text-on-warn: #{map.get(map.get($theme, 'warn-palette'), 100)};
 
-  --text-ok: #{map.get(map.get($theme, "ok-palette"), 500)};
-  --text-on-ok: #{map.get(map.get($theme, "ok-palette"), 100)};
+    --text-ok: #{map.get(map.get($theme, 'ok-palette'), 500)};
+    --text-on-ok: #{map.get(map.get($theme, 'ok-palette'), 100)};
 }
 
 @mixin set-dark-variables($theme) {
-  --bg-neutral: slategrey;
-  --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
-  --bg-secondary: #{map.get(map.get($theme, "primary-palette"), 700)};
-  --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
-  --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
+    --bg-neutral: slategrey;
+    --bg-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
+    --bg-secondary: #{map.get(map.get($theme, 'primary-palette'), 700)};
+    --bg-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
+    --bg-warn: #{map.get(map.get($theme, 'warn-palette'), 500)};
 
-  --border-neutral: black;
-  --border-primary: #{map.get(map.get($theme, "primary-palette"), 800)};
-  --border-accent: #{map.get(map.get($theme, "accent-palette"), 800)};
-  --border-warn: #{map.get(map.get($theme, "warn-palette"), 800)};
+    --border-neutral: black;
+    --border-primary: #{map.get(map.get($theme, 'primary-palette'), 800)};
+    --border-accent: #{map.get(map.get($theme, 'accent-palette'), 800)};
+    --border-warn: #{map.get(map.get($theme, 'warn-palette'), 800)};
 
-  --text-neutral: white;
+    --text-neutral: white;
 
-  --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
-  --text-secondary: #{map.get(map.get($theme, "primary-palette"), 200)};
-  --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
+    --text-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
+    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
+    --text-on-primary: #{map.get(map.get($theme, 'primary-palette'), 100)};
 
-  --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
-  --text-on-accent: #{map.get(map.get($theme, "accent-palette"), 100)};
+    --text-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
+    --text-on-accent: #{map.get(map.get($theme, 'accent-palette'), 100)};
 
-  --text-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
-  --text-on-warn: #{map.get(map.get($theme, "warn-palette"), 100)};
+    --text-warn: #{map.get(map.get($theme, 'warn-palette'), 500)};
+    --text-on-warn: #{map.get(map.get($theme, 'warn-palette'), 100)};
 }

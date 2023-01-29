@@ -1,49 +1,49 @@
-@use "../../../../styles/mixins/mixins.scss";
+@use '../../../../styles/mixins/mixins.scss';
 
 :host {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
 
-  padding: mixins.size(2);
-  gap: mixins.size(2);
+    padding: mixins.size(2);
+    gap: mixins.size(2);
 }
 
 .input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .choices {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .letter-cell {
-  width: 48px;
-  height: 48px;
+    width: 48px;
+    height: 48px;
 
-  color: var(--text-primary) !important;
-  border: 1px solid var(--border-primary);
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-primary);
 
-  &.used {
-    color: var(--text-secondary) !important;
-  }
+    &.used {
+        color: var(--text-secondary) !important;
+    }
 }
 
 .cancel {
- color: var(--text-warn);
+    color: var(--text-warn);
 }
 
 .confirm {
- color: var(--text-ok);
+    color: var(--text-ok);
 }

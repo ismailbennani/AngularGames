@@ -1,8 +1,8 @@
-@use "mixins/mixins.scss";
-@use "themes/default-theme.scss";
+@use 'mixins/mixins.scss';
+@use 'themes/default-theme.scss';
 
 @include mixins.set-common-theme();
 
 .default-theme {
-  @include mixins.set-light-theme(default-theme.$theme);
+    @include mixins.set-light-theme(default-theme.$theme);
 }
