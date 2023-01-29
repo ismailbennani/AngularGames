@@ -10,13 +10,27 @@
 }
 
 .header {
-    display: flex;
-    align-items: center;
+    position: relative;
 
     background-color: var(--bg-primary);
     color: var(--text-on-primary);
 
+    .controls {
+        display: flex;
+        align-items: center;
+    }
+
     .title {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         color: (--text-on-primary);
         font-weight: bold;
     }
