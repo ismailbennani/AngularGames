@@ -6,7 +6,7 @@ export interface GameState {
 }
 
 export const createNewGame = (): GameState => {
-    const currentLevel = createLevelState(GameLevelDifficulty.Easy);
+    const currentLevel = createLevelState(GameLevelDifficulty.Hard);
 
     return {
         levelCount: 1,

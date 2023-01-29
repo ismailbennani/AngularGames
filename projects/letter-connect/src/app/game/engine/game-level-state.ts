@@ -139,15 +139,15 @@ function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
     let maxNumberOfWords: number;
     switch (difficulty) {
         case GameLevelDifficulty.Easy:
-            numberOfLetters = 10;
+            numberOfLetters = 8;
             maxNumberOfWords = 5;
             break;
         case GameLevelDifficulty.Normal:
-            numberOfLetters = 7;
+            numberOfLetters = 8;
             maxNumberOfWords = 10;
             break;
         case GameLevelDifficulty.Hard:
-            numberOfLetters = 8;
+            numberOfLetters = 10;
             maxNumberOfWords = 15;
             break;
     }
