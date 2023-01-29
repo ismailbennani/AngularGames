@@ -17,12 +17,18 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
     const oneOfLongestWords = shuffle(longestWords)[0];
     const bounds = getValidBounds(words, oneOfLongestWords, true);
     words.push({ word: oneOfLongestWords, horiz: true, bounds: pickAtRandom(bounds) });
+    dictionary.splice(
+        dictionary.findIndex((w) => w == oneOfLongestWords),
+        1
+    );
 
     // pick other words
     let horiz = false;
     let tries = 0;
     const maxTries = 1000;
     while (dictionary.length > 0 && words.length < settings.maxNumberOfWords && tries < maxTries) {
+        tries++;
+
         const wordIndex = Math.floor(Math.random() * dictionary.length);
         const word = dictionary[wordIndex];
 
@@ -37,7 +43,6 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
         words.push({ word, horiz, bounds: pickAtRandom(bounds) });
 
         horiz = !horiz;
-        tries++;
     }
 
     if (tries >= maxTries) {

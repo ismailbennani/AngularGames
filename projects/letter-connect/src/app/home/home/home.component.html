@@ -1,4 +1,9 @@
-<app-game-grid [grid]="grid" [reveal]="true"></app-game-grid>
-<button mat-raised-button routerLink="/game">
-  Play
-</button>
+<div class="top">
+  <app-game-grid [grid]="grid" [reveal]="true" size="huge"></app-game-grid>
+</div>
+<div class="separator"></div>
+<div class="bottom">
+  <button mat-raised-button routerLink="/game">
+    Play
+  </button>
+</div>

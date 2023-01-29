@@ -51,7 +51,7 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
         const normalizedLetters = normalizeWord(''.concat(...settings.letters));
         validWords = dictionary
             .filter((w) => w.length > 2)
-            .map((w) => removeDiacritics(w.toLowerCase()))
+            .map((w) => removeDiacritics(w.toUpperCase()))
             .filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
 
         tries++;
@@ -161,32 +161,32 @@ function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
 }
 
 const alphabet = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
 ];
 
 function normalizeWord(...words: string[]): number[] {

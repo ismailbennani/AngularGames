@@ -6,8 +6,33 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 
-  gap: mixins.size(2);
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 66%;
+  }
+
+  .separator {
+    flex-grow: 1;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 33%;
+  }
+}
+
+button {
+  width: 50% !important;
+  height: 20% !important;
+
+  font-size: 32px;
 }
