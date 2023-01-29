@@ -19,7 +19,7 @@ export class GameGridComponent {
 
     public getCellSizeInPx(): number {
         const containerWidth = window.innerWidth * 0.9;
-        const containerHeight = window.innerHeight * 0.6;
+        const containerHeight = window.innerHeight * 0.5;
 
         return !this.grid
             ? 0

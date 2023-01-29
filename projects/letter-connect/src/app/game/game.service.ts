@@ -33,10 +33,15 @@ export class GameService {
     public attempt(word: string) {
         const result = Engine.attempt(this.state, word);
         this.checkGameOver();
-
         this.notify();
 
         return result;
+    }
+
+    public hint() {
+        Engine.hint(this.state);
+        this.checkGameOver();
+        this.notify();
     }
 
     public checkGameOver() {

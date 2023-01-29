@@ -52,4 +52,8 @@ export class GameBoardComponent implements OnInit {
                 break;
         }
     }
+
+    public hint() {
+        this.gameService.hint();
+    }
 }

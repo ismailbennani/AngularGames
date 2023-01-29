@@ -1,4 +1,6 @@
 import { GameState } from './game-state';
+import { GameGridCell } from './game-level-state';
+import { pickAtRandom } from '../../shared/helpers/array-helpers';
 
 export class Engine {
     public static attempt(gameState: GameState, word: string): AttemptResult {
@@ -19,13 +21,23 @@ export class Engine {
             }
 
             atLeastOneLetter ||= !gameState.currentLevel.grid.cells[gridY][gridX]!.discovered;
-            gameState.currentLevel.grid.cells[gridY][gridX] = {
-                ...gameState.currentLevel.grid.cells[gridY][gridX]!,
-                discovered: true,
-            };
+            this.discoverCell(gameState.currentLevel.grid.cells[gridY][gridX]);
         }
 
         return atLeastOneLetter ? AttemptResult.Found : AttemptResult.AlreadyFound;
+    }
+
+    public static hint(gameState: GameState) {
+        const cells: GameGridCell[] = [];
+
+        for (const cell of gameState.currentLevel.grid.cells.flatMap((line) => line)) {
+            if (cell && !cell.discovered) {
+                cells.push(cell);
+            }
+        }
+
+        const randomCell = pickAtRandom(cells);
+        this.discoverCell(randomCell);
     }
 
     public static checkGameOver(gameState: GameState): GameOverResult {
@@ -40,6 +52,10 @@ export class Engine {
         }
 
         return GameOverResult.Won;
+    }
+
+    private static discoverCell(cell: GameGridCell) {
+        (cell as any).discovered = true;
     }
 }
 

@@ -49,6 +49,9 @@ export class LettersComponent implements OnInit {
     @Output()
     public attempt: EventEmitter<string> = new EventEmitter<string>();
 
+    @Output()
+    public hint: EventEmitter<void> = new EventEmitter<void>();
+
     public currentWord: string[] = [];
     public used: boolean[] = [];
 
@@ -108,6 +111,10 @@ export class LettersComponent implements OnInit {
     public shuffleLetters() {
         this.clear();
         this._letters = shuffle(this._letters);
+    }
+
+    public askHint() {
+        this.hint.emit();
     }
 
     public triggerAttempt() {
