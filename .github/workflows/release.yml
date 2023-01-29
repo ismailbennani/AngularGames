@@ -32,6 +32,9 @@ jobs:
           name: build
           path: build
 
+      - name: Set correct base
+        run: sed -i 's/src=">/<src="letter-connect/>/g' build/letter-connect/index.html
+
       - name: Use index.html as 404 page
         run: cp build/letter-connect/index.html build/letter-connect/404.html
 
