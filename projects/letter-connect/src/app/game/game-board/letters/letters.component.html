@@ -19,11 +19,23 @@
 </div>
 
 <div class="choices">
-    <mat-grid-list [cols]="cols" rowHeight="48px" [ngStyle]="{ 'width.px': 48 * cols }">
-        <mat-grid-tile *ngFor="let letter of letters; let index = index" class="letter-cell" [class.used]="used[index]">
-            <button mat-icon-button [disabled]="disabled" (click)="addLetter(letter)">
-                {{ letter }}
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
+    <div class="left-side">
+        <button mat-icon-button (click)="shuffleLetters()">
+            <mat-icon>shuffle</mat-icon>
+        </button>
+    </div>
+    <div class="middle">
+        <mat-grid-list [cols]="cols" rowHeight="48px" [ngStyle]="{ 'width.px': 48 * cols }">
+            <mat-grid-tile
+                *ngFor="let letter of letters; let index = index"
+                class="letter-cell"
+                [class.used]="used[index]"
+            >
+                <button mat-icon-button [disabled]="disabled" (click)="addLetter(letter)">
+                    {{ letter }}
+                </button>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+    <div class="right-side"></div>
 </div>

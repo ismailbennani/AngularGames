@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { shuffle } from '../../../shared/helpers/array-helpers';
 
 @Component({
     selector: 'app-letters',
@@ -102,6 +103,11 @@ export class LettersComponent implements OnInit {
 
         this.currentWord.splice(index, 1);
         this.currentWord.push('');
+    }
+
+    public shuffleLetters() {
+        this.clear();
+        this._letters = shuffle(this._letters);
     }
 
     public triggerAttempt() {

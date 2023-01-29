@@ -19,7 +19,16 @@
 .choices {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+
+    .left-side,
+    .right-side {
+        width: 20%;
+    }
+
+    .middle {
+        flex-grow: 1;
+    }
 }
 
 button {
