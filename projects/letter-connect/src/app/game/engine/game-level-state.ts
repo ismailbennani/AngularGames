@@ -67,12 +67,18 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
 
     const crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords ?? 20 });
 
-    const actualLetters = new Set<string>();
+    let letterCounts: number[] = [];
     for (const word of crossword.words) {
-        for (const letter of word.word) {
-            actualLetters.add(letter);
+        const normalized = normalizeWord(word.word);
+        if (!letterCounts.length) {
+            letterCounts = normalized;
+        } else {
+            for (let i = 0; i < letterCounts.length; i++) {
+                letterCounts[i] = Math.max(letterCounts[i], normalized[i]);
+            }
         }
     }
+    const letters = letterCounts.flatMap((count, index) => Array(count).fill(alphabet[index]));
 
     const grid = createGameGrid(crossword);
 
@@ -81,7 +87,7 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
         settings: settings,
         crossword,
         grid,
-        letters: shuffle([...actualLetters]),
+        letters: shuffle(letters),
         gameOver: GameOverResult.NotOver,
     };
 
