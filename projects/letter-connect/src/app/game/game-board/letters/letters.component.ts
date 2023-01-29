@@ -152,20 +152,23 @@ export class LettersComponent implements OnInit {
     }
 
     @HostListener('window:keyup.enter', ['$event'])
-    private enterPressed(_: KeyboardEvent) {
+    private enterPressed(event: KeyboardEvent) {
         this.triggerAttempt();
+        event.stopImmediatePropagation();
     }
 
     @HostListener('window:keyup.backspace', ['$event'])
-    private backspacePressed(_: KeyboardEvent) {
+    private backspacePressed(event: KeyboardEvent) {
         const index = [...this.currentWord].reverse().findIndex((l) => l !== '');
         if (index >= 0) {
             this.removeLetter(this.currentWord.length - index - 1);
         }
+        event.stopImmediatePropagation();
     }
 
     @HostListener('window:keyup.escape', ['$event'])
-    private escapePressed(_: KeyboardEvent) {
+    private escapePressed(event: KeyboardEvent) {
         this.clear();
+        event.stopImmediatePropagation();
     }
 }
