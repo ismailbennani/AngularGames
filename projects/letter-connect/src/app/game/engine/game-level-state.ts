@@ -33,42 +33,55 @@ export enum GameLevelDifficulty {
 
 interface GameLevelSettings {
     readonly letters: string[];
-    readonly maxNumberOfWords?: number;
+    readonly minNumberOfWords: number;
+    readonly maxNumberOfWords: number;
 }
 
 export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelState => {
     console.log('Generating level...');
 
-    let settings: GameLevelSettings | undefined = undefined;
-    let validWords: string[] = [];
-    let tries = 0;
-    let maxTries = 10;
-    while (!areValidSettings(settings, validWords) && tries < maxTries) {
-        console.log(`Generating settings (${tries + 1}/${maxTries})`);
+    let crosswordTries = 0;
+    let crosswordMaxTries = 100;
+    let crossword: Crossword;
+    let settings: GameLevelSettings | undefined;
 
-        settings = getSettings(difficulty);
+    while (crosswordTries < crosswordMaxTries) {
+        console.log(`Generating crossword (${crosswordTries + 1}/${crosswordMaxTries})`);
 
-        const dictionary = getDictionary();
-        const normalizedLetters = normalizeWord(''.concat(...settings.letters));
-        validWords = dictionary
-            .filter((w) => w.length > 2)
-            .map((w) => removeDiacritics(w.toUpperCase()))
-            .filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
+        let validWords: string[] = [];
+        let settingsTries = 0;
+        let settingsMaxTries = 10;
 
-        tries++;
+        while (!areValidSettings(settings, validWords) && settingsTries < settingsMaxTries) {
+            console.log(`Generating settings (${settingsTries + 1}/${settingsMaxTries})`);
+
+            settings = getSettings(difficulty);
+
+            const dictionary = getDictionary();
+            const normalizedLetters = normalizeWord(''.concat(...settings.letters));
+            validWords = dictionary
+                .filter((w) => w.length > 2)
+                .map((w) => removeDiacritics(w.toUpperCase()))
+                .filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
+
+            settingsTries++;
+        }
+
+        if (areValidSettings(settings, validWords)) {
+            console.log('Found valid settings', settings);
+            console.log('Valid words', validWords);
+
+            crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords });
+            if (crossword.words.length >= settings.minNumberOfWords) {
+                break;
+            }
+        }
+
+        crosswordTries++;
     }
-
-    if (!areValidSettings(settings, validWords)) {
-        throw new Error(`Could not generate valid settings after ${maxTries} tries`);
-    }
-
-    console.log('Found valid settings', settings);
-    console.log('Valid words', validWords);
-
-    const crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords ?? 20 });
 
     let letterCounts: number[] = [];
-    for (const word of crossword.words) {
+    for (const word of crossword!.words) {
         const normalized = normalizeWord(word.word);
         if (!letterCounts.length) {
             letterCounts = normalized;
@@ -80,12 +93,12 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
     }
     const letters = letterCounts.flatMap((count, index) => Array(count).fill(alphabet[index]));
 
-    const grid = createGameGrid(crossword);
+    const grid = createGameGrid(crossword!);
 
     const level: GameLevelState = {
         difficulty,
-        settings: settings,
-        crossword,
+        settings: settings!,
+        crossword: crossword!,
         grid,
         letters: shuffle(letters),
         gameOver: GameOverResult.NotOver,
@@ -175,23 +188,27 @@ function areValidSettings(
     settings: GameLevelSettings | undefined,
     validWords: string[]
 ): settings is GameLevelSettings {
-    return !!settings && validWords.length >= (settings?.maxNumberOfWords ?? 0);
+    return !!settings && validWords.length >= settings.maxNumberOfWords;
 }
 
 function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
     let numberOfLetters: number;
+    let minNumberOfWords: number;
     let maxNumberOfWords: number;
     switch (difficulty) {
         case GameLevelDifficulty.Easy:
             numberOfLetters = 8;
+            minNumberOfWords = 3;
             maxNumberOfWords = 5;
             break;
         case GameLevelDifficulty.Normal:
             numberOfLetters = 8;
+            minNumberOfWords = 6;
             maxNumberOfWords = 10;
             break;
         case GameLevelDifficulty.Hard:
             numberOfLetters = 10;
+            minNumberOfWords = 11;
             maxNumberOfWords = 15;
             break;
     }
@@ -203,6 +220,7 @@ function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
 
     return {
         letters,
+        minNumberOfWords,
         maxNumberOfWords,
     };
 }
