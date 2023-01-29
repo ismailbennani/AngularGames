@@ -3,6 +3,10 @@
         <mat-icon>home</mat-icon>
         <mat-divider [inset]="true" [vertical]="true"></mat-divider>
     </button>
+    <div class="spacer"></div>
+    <button mat-icon-button (click)="reset()" *ngIf="canReset">
+        <mat-icon>clear</mat-icon>
+    </button>
 </div>
 <mat-divider></mat-divider>
 <div class="content">

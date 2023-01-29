@@ -7,6 +7,9 @@
 }
 
 .header {
+    display: flex;
+    align-items: center;
+
     background-color: var(--bg-primary);
     color: var(--text-on-primary);
 }
@@ -21,4 +24,8 @@
 
     background-color: var(--bg-primary);
     color: var(--text-on-primary);
+}
+
+.spacer {
+    flex-grow: 1;
 }
