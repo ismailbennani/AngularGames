@@ -12,7 +12,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
     const words: Word[] = [];
 
     // pick first word
-    const longestWordSize = dictionary.reduce((acc, w) => (w.length > acc ? w.length : acc), 0);
+    const longestWordSize = Math.max(...dictionary.map((w) => w.length));
     const longestWords = dictionary.filter((w) => w.length == longestWordSize);
     const oneOfLongestWords = shuffle(longestWords)[0];
     const bounds = getValidBounds(words, oneOfLongestWords, true);
@@ -165,9 +165,13 @@ function makeBounds(word: string, x: number, y: number, horiz: boolean) {
 }
 
 function removeAllMatches(dictionary: string[], oneOfLongestWords: string) {
-    let index;
-    do {
-        index = dictionary.findIndex((w) => w == oneOfLongestWords);
+    while (true) {
+        const index = dictionary.findIndex((w) => w == oneOfLongestWords);
+
+        if (index < 0) {
+            return;
+        }
+
         dictionary.splice(index, 1);
-    } while (index >= 0);
+    }
 }
