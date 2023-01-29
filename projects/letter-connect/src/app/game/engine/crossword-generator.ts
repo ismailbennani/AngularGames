@@ -30,24 +30,18 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
         horiz = !horiz;
     }
 
-    if (words.length < settings.minNumberOfWords) {
-        throw new Error(`Could not generate enough words (${words.length}/${settings.minNumberOfWords})`);
-    }
-
     return { words, letters: settings.letters };
 };
 
 export interface CrosswordGeneratorSettings {
     readonly dictionary: string[];
     readonly letters: string[];
-    readonly minNumberOfWords: number;
     readonly maxNumberOfWords: number;
 }
 
 export const DEFAULT_CROSSWORD_GENERATOR_SETTINGS: CrosswordGeneratorSettings = {
     dictionary: [],
     letters: [],
-    minNumberOfWords: 5,
     maxNumberOfWords: 20,
 };
 

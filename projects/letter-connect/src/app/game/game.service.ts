@@ -19,7 +19,6 @@ export class GameService {
         const settings: Partial<CrosswordGeneratorSettings> = {
             dictionary: ['test', 'etst', 'word'],
             letters: ['t', 'e', 's', 't'],
-            minNumberOfWords: 2,
         };
         const newGame = createNewGame(settings);
 
