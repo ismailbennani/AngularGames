@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-letters',
@@ -45,7 +45,7 @@ export class LettersComponent implements OnInit {
     }
 
     public addLetter(letter: string) {
-        const notUsedIndex = this._letters.findIndex((l, i) => l == letter && !this.used[i]);
+        const notUsedIndex = this._letters.findIndex((l, i) => l == letter.toUpperCase() && !this.used[i]);
         if (notUsedIndex < 0) {
             return;
         }
@@ -88,5 +88,24 @@ export class LettersComponent implements OnInit {
     private refresh() {
         this.currentWord = new Array<string>(this._longestWordSize).fill('');
         this.used = this._letters.map((_) => false);
+    }
+
+    @HostListener('window:keyup', ['$event'])
+    private letter(event: KeyboardEvent) {
+        const letter = event.key.toUpperCase();
+
+        if (this._letters.includes(letter)) {
+            this.addLetter(letter);
+        }
+    }
+
+    @HostListener('window:keyup.enter', ['$event'])
+    private enterPressed(event: KeyboardEvent) {
+        this.triggerAttempt();
+    }
+
+    @HostListener('window:keyup.escape', ['$event'])
+    private escapePressed(event: KeyboardEvent) {
+        this.clear();
     }
 }

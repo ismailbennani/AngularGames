@@ -9,6 +9,11 @@
 
 .grid-cell {
   &.has-letter {
+    color: var(--text-primary);
     border: 1px solid var(--border-primary);
+
+    &.revealed {
+      color: var(--text-secondary);
+    }
   }
 }
