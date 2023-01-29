@@ -51,6 +51,7 @@
 @mixin set-light-variables($theme) {
   --bg-neutral: white;
   --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --bg-secondary: #{map.get(map.get($theme, "primary-palette"), 100)};
   --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
   --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
 
@@ -62,6 +63,7 @@
   --text-neutral: slategrey;
 
   --text-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --text-secondary: #{map.get(map.get($theme, "primary-palette"), 200)};
   --text-on-primary: #{map.get(map.get($theme, "primary-palette"), 100)};
 
   --text-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
@@ -74,6 +76,7 @@
 @mixin set-dark-variables($theme) {
   --bg-neutral: slategrey;
   --bg-primary: #{map.get(map.get($theme, "primary-palette"), 500)};
+  --bg-secondary: #{map.get(map.get($theme, "primary-palette"), 700)};
   --bg-accent: #{map.get(map.get($theme, "accent-palette"), 500)};
   --bg-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
 

@@ -10,6 +10,14 @@ import { GameService } from '../game.service';
 export class GameBoardComponent implements OnInit {
     public gameState: GameState | undefined;
 
+    public get longestWordSize(): number {
+        if (!this.gameState) {
+            return 0;
+        }
+
+        return Math.max(...this.gameState.currentLevel.crossword.words.map((w) => w.word.length));
+    }
+
     constructor(private gameService: GameService) {}
 
     ngOnInit(): void {

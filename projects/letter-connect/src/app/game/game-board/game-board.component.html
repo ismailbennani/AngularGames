@@ -3,5 +3,6 @@
     Level {{ gameState.levelCount }}
   </div>
   <app-game-grid [grid]="gameState.currentLevel.grid"></app-game-grid>
-  <app-letters></app-letters>
+  <div class="spacer"></div>
+  <app-letters [letters]="gameState.currentLevel.letters" [longestWordSize]="longestWordSize"></app-letters>
 </ng-container>
