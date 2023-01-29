@@ -5,4 +5,5 @@ $theme: (
   primary-palette: mat.define-palette(colors.$primary),
   accent-palette: mat.define-palette(colors.$accent),
   warn-palette: mat.define-palette(colors.$warn),
+  ok-palette: mat.define-palette(colors.$ok),
 )

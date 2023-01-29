@@ -30,6 +30,18 @@ export class LettersComponent implements OnInit {
 
     private _longestWordSize: number = 0;
 
+    @Input()
+    public get smallestWordSize(): number {
+        return this._smallestWordSize;
+    }
+
+    public set smallestWordSize(value: number) {
+        this._smallestWordSize = value;
+        this.refresh();
+    }
+
+    private _smallestWordSize: number = 0;
+
     @Output()
     public attempt: EventEmitter<string> = new EventEmitter<string>();
 
@@ -38,6 +50,14 @@ export class LettersComponent implements OnInit {
 
     public get cols(): number {
         return !this._letters ? 0 : Math.ceil(this._letters.length / 2);
+    }
+
+    public get canClear(): boolean {
+        return this.currentWord.filter((l) => l !== '').length > 0;
+    }
+
+    public get canTrigger(): boolean {
+        return this.currentWord.filter((l) => l !== '').length > this._smallestWordSize;
     }
 
     ngOnInit(): void {
@@ -74,6 +94,10 @@ export class LettersComponent implements OnInit {
     }
 
     public triggerAttempt() {
+        if (!this.canTrigger) {
+            return;
+        }
+
         const word = ''.concat(...this.currentWord);
         this.attempt.emit(word);
 
@@ -100,12 +124,12 @@ export class LettersComponent implements OnInit {
     }
 
     @HostListener('window:keyup.enter', ['$event'])
-    private enterPressed(event: KeyboardEvent) {
+    private enterPressed(_: KeyboardEvent) {
         this.triggerAttempt();
     }
 
     @HostListener('window:keyup.escape', ['$event'])
-    private escapePressed(event: KeyboardEvent) {
+    private escapePressed(_: KeyboardEvent) {
         this.clear();
     }
 }

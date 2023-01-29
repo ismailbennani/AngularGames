@@ -71,6 +71,9 @@
 
   --text-warn: #{map.get(map.get($theme, "warn-palette"), 500)};
   --text-on-warn: #{map.get(map.get($theme, "warn-palette"), 100)};
+
+  --text-ok: #{map.get(map.get($theme, "ok-palette"), 500)};
+  --text-on-ok: #{map.get(map.get($theme, "ok-palette"), 100)};
 }
 
 @mixin set-dark-variables($theme) {

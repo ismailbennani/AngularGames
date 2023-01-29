@@ -1,32 +1,29 @@
 <div class="input">
-  <div>
-    <button mat-icon-button class="cancel" (click)="clear()">
-      <mat-icon> clear </mat-icon>
-    </button>
-  </div>
+    <div>
+        <button mat-icon-button class="cancel" [disabled]="!canClear" (click)="clear()">
+            <mat-icon> clear </mat-icon>
+        </button>
+    </div>
 
-  <div
-    *ngFor="let letter of currentWord; let index = index"
-    class="letter-cell"
-  >
-    <button mat-icon-button (click)="removeLetter(index)">
-      {{ letter }}
-    </button>
-  </div>
+    <div *ngFor="let letter of currentWord; let index = index" class="letter-cell">
+        <button mat-icon-button (click)="removeLetter(index)">
+            {{ letter }}
+        </button>
+    </div>
 
-  <div>
-    <button mat-icon-button class="confirm" (click)="triggerAttempt()">
-      <mat-icon> check </mat-icon>
-    </button>
-  </div>
+    <div>
+        <button mat-icon-button class="confirm" [disabled]="!canTrigger" (click)="triggerAttempt()">
+            <mat-icon> check </mat-icon>
+        </button>
+    </div>
 </div>
 
 <div class="choices">
-  <mat-grid-list [cols]="cols" rowHeight="48px" [ngStyle]="{ 'width.px': 48 * cols }">
-    <mat-grid-tile *ngFor="let letter of letters; let index = index" class="letter-cell" [class.used]="used[index]">
-      <button mat-icon-button (click)="addLetter(letter)">
-        {{ letter }}
-      </button>
-    </mat-grid-tile>
-  </mat-grid-list>
+    <mat-grid-list [cols]="cols" rowHeight="48px" [ngStyle]="{ 'width.px': 48 * cols }">
+        <mat-grid-tile *ngFor="let letter of letters; let index = index" class="letter-cell" [class.used]="used[index]">
+            <button mat-icon-button (click)="addLetter(letter)">
+                {{ letter }}
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>
