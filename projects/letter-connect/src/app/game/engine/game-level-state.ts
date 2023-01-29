@@ -66,6 +66,14 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
     console.log('Valid words', validWords);
 
     const crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords ?? 20 });
+
+    const actualLetters = new Set<string>();
+    for (const word of crossword.words) {
+        for (const letter of word.word) {
+            actualLetters.add(letter);
+        }
+    }
+
     const grid = createGameGrid(crossword);
 
     const level: GameLevelState = {
@@ -73,7 +81,7 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
         settings: settings,
         crossword,
         grid,
-        letters: shuffle(settings.letters),
+        letters: shuffle([...actualLetters]),
         gameOver: GameOverResult.NotOver,
     };
 
