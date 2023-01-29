@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { GameService } from './game.service';
 import { GameOverResult } from './engine/engine';
 import { GameState } from './engine/game-state';
+import { TitleService } from '../shared/main-layout/title/title.service';
 
 @Component({
     selector: 'app-game',
@@ -12,7 +13,7 @@ export class GameComponent implements OnInit {
     public levelOver: boolean = false;
     public won: boolean = false;
 
-    constructor(private gameService: GameService) {}
+    constructor(private gameService: GameService, private titleService: TitleService) {}
 
     ngOnInit(): void {
         const game = this.gameService.getOrCreate();
@@ -31,6 +32,9 @@ export class GameComponent implements OnInit {
     private update(state: GameState) {
         this.levelOver = state.currentLevel.gameOver !== GameOverResult.NotOver;
         this.won = state.currentLevel.gameOver === GameOverResult.Won;
+
+        const title = `World ${state.worldCount} - Level ${state.levelCount}`;
+        this.titleService.set(title);
     }
 
     @HostListener('window:keyup.enter', ['$event'])

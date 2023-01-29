@@ -1,5 +1,7 @@
 import { Component, isDevMode } from '@angular/core';
 import { GameService } from '../../game/game.service';
+import { Observable } from 'rxjs';
+import { TitleService } from './title/title.service';
 
 @Component({
     selector: 'app-main-layout',
@@ -7,7 +9,11 @@ import { GameService } from '../../game/game.service';
     styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent {
-    constructor(private gameService: GameService) {}
+    public get title$(): Observable<string> {
+        return this.titleService.title$;
+    }
+
+    constructor(private gameService: GameService, private titleService: TitleService) {}
 
     public get canReset() {
         return isDevMode();

@@ -12,18 +12,16 @@
 
     background-color: var(--bg-primary);
     color: var(--text-on-primary);
+
+    .title {
+        color: (--text-on-primary);
+        font-weight: bold;
+    }
 }
 
 .content {
     position: relative;
     flex-grow: 1;
-}
-
-.footer {
-    height: 64px;
-
-    background-color: var(--bg-primary);
-    color: var(--text-on-primary);
 }
 
 .spacer {
