@@ -20,11 +20,11 @@ export const boundsOverlap = (bounds1: Bounds, bounds2: Bounds): boolean => {
         return false;
     }
 
-    if (bounds1.x > bounds2.x + bounds2.width || bounds1.x + bounds1.width > bounds2.x) {
+    if (bounds1.x >= bounds2.x + bounds2.width || bounds2.x >= bounds1.x + bounds1.width) {
         return false;
     }
 
-    if (bounds1.y > bounds2.y + bounds2.height || bounds1.y + bounds1.height > bounds2.y) {
+    if (bounds1.y >= bounds2.y + bounds2.height || bounds2.y >= bounds1.y + bounds1.height) {
         return false;
     }
 

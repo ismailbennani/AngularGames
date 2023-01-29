@@ -1,8 +1,11 @@
 import { Crossword } from './crossword';
 import { shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
+import dictionaryFr from '../../../assets/dictionary-fr';
 
 export interface GameLevelState {
+    readonly difficulty: GameLevelDifficulty;
+    readonly settings: GameLevelSettings;
     readonly crossword: Crossword;
     readonly grid: GameGrid;
     readonly letters: string[];
@@ -21,23 +24,60 @@ export interface GameGridCellWithLetter {
     readonly discovered: boolean;
 }
 
-export interface GameLevelSettings {
+export enum GameLevelDifficulty {
+    Easy = 'easy',
+    Normal = 'normal',
+    Hard = 'hard',
+}
+
+interface GameLevelSettings {
     readonly letters: string[];
     readonly maxNumberOfWords?: number;
 }
 
-export const createLevelState = (settings: GameLevelSettings): GameLevelState => {
-    const normalizedLetters = normalizeWord(''.concat(...settings.letters));
-    const validWords = [].filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
+export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelState => {
+    console.log('Generating level...');
+
+    let settings: GameLevelSettings | undefined = undefined;
+    let validWords: string[] = [];
+    let tries = 0;
+    let maxTries = 10;
+    while (!areValidSettings(settings, validWords) && tries < maxTries) {
+        console.log(`Generating settings (${tries + 1}/${maxTries})`);
+
+        settings = getSettings(difficulty);
+
+        const dictionary = getDictionary();
+        const normalizedLetters = normalizeWord(''.concat(...settings.letters));
+        validWords = dictionary
+            .filter((w) => w.length > 2)
+            .map((w) => removeDiacritics(w.toLowerCase()))
+            .filter((w) => canWordBeWrittenUsingLetters(w, normalizedLetters));
+
+        tries++;
+    }
+
+    if (!areValidSettings(settings, validWords)) {
+        throw new Error(`Could not generate valid settings after ${maxTries} tries`);
+    }
+
+    console.log('Found valid settings', settings);
+    console.log('Valid words', validWords);
 
     const crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords ?? 20 });
     const grid = createGameGrid(crossword);
 
-    return {
+    const level = {
+        difficulty,
+        settings: settings,
         crossword,
         grid,
         letters: shuffle(settings.letters),
     };
+
+    console.log('Level', level);
+
+    return level;
 };
 
 export function createGameGrid(crossword: Crossword): GameGrid {
@@ -87,7 +127,40 @@ export function createGameGrid(crossword: Crossword): GameGrid {
     return { width, height, cells };
 }
 
-const letters = [
+function areValidSettings(
+    settings: GameLevelSettings | undefined,
+    validWords: string[]
+): settings is GameLevelSettings {
+    return !!settings && validWords.length >= (settings?.maxNumberOfWords ?? 0);
+}
+
+function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
+    let numberOfLetters: number;
+    let maxNumberOfWords: number;
+    switch (difficulty) {
+        case GameLevelDifficulty.Easy:
+            numberOfLetters = 10;
+            maxNumberOfWords = 5;
+            break;
+        case GameLevelDifficulty.Normal:
+            numberOfLetters = 7;
+            maxNumberOfWords = 10;
+            break;
+        case GameLevelDifficulty.Hard:
+            numberOfLetters = 8;
+            maxNumberOfWords = 15;
+            break;
+    }
+
+    const letters = shuffle(alphabet).slice(0, numberOfLetters);
+
+    return {
+        letters,
+        maxNumberOfWords,
+    };
+}
+
+const alphabet = [
     'a',
     'b',
     'c',
@@ -116,31 +189,35 @@ const letters = [
     'z',
 ];
 
-const letterPositions = Object.fromEntries(letters.map((l, i) => [l, i]));
-
 function normalizeWord(...words: string[]): number[] {
-    const letterCount = Array(letters.length);
+    const letterCount = new Array<number>(alphabet.length).fill(0);
 
     for (const word of words) {
         for (let i = 0; i < word.length; i++) {
-            letterCount[letterPositions[word[i]]] ??= 0;
-            letterCount[letterPositions[word[i]]]++;
+            for (let j = 0; j < alphabet.length; j++) {
+                if (word[i] == alphabet[j]) {
+                    letterCount[j]++;
+                }
+            }
         }
     }
 
     return letterCount;
 }
 
+const removeDiacritics = (letter: string) => letter.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+
+function getDictionary(): string[] {
+    return dictionaryFr;
+}
+
 function canWordBeWrittenUsingLetters(word: string, normalizedLetters: number[]): boolean {
     const normalizedWord = normalizeWord(word);
-
-    console.log(normalizedLetters);
-    console.log(normalizedWord);
 
     for (let i = 0; i < normalizedLetters.length; i++) {
         if (
             (!normalizedLetters[i] && normalizedWord[i]) ||
-            (normalizedLetters[i] && (!normalizedWord[i] || normalizedWord[i] > normalizedLetters[i]))
+            (normalizedLetters[i] && normalizedWord[i] > normalizedLetters[i])
         ) {
             return false;
         }
