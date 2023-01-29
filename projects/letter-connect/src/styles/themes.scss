@@ -1,8 +1,85 @@
 @use 'mixins/mixins.scss';
 @use 'themes/default-theme.scss';
+@use 'themes/world-themes.scss';
 
 @include mixins.set-common-theme();
 
 .default-theme {
     @include mixins.set-light-theme(default-theme.$theme);
+}
+
+.world-1-theme {
+    @include mixins.set-light-theme(world-themes.$world-1);
+}
+
+.world-2-theme {
+    @include mixins.set-light-theme(world-themes.$world-2);
+}
+
+.world-3-theme {
+    @include mixins.set-light-theme(world-themes.$world-3);
+}
+
+.world-4-theme {
+    @include mixins.set-light-theme(world-themes.$world-4);
+}
+
+.world-5-theme {
+    @include mixins.set-light-theme(world-themes.$world-5);
+}
+
+.world-6-theme {
+    @include mixins.set-light-theme(world-themes.$world-6);
+}
+
+.world-7-theme {
+    @include mixins.set-light-theme(world-themes.$world-7);
+}
+
+.world-8-theme {
+    @include mixins.set-light-theme(world-themes.$world-8);
+}
+
+.world-9-theme {
+    @include mixins.set-light-theme(world-themes.$world-9);
+}
+
+.world-10-theme {
+    @include mixins.set-light-theme(world-themes.$world-10);
+}
+
+.world-11-theme {
+    @include mixins.set-light-theme(world-themes.$world-11);
+}
+
+.world-12-theme {
+    @include mixins.set-light-theme(world-themes.$world-12);
+}
+
+.world-13-theme {
+    @include mixins.set-light-theme(world-themes.$world-13);
+}
+
+.world-14-theme {
+    @include mixins.set-light-theme(world-themes.$world-14);
+}
+
+.world-15-theme {
+    @include mixins.set-light-theme(world-themes.$world-15);
+}
+
+.world-16-theme {
+    @include mixins.set-light-theme(world-themes.$world-16);
+}
+
+.world-17-theme {
+    @include mixins.set-light-theme(world-themes.$world-17);
+}
+
+.world-18-theme {
+    @include mixins.set-light-theme(world-themes.$world-18);
+}
+
+.world-19-theme {
+    @include mixins.set-light-theme(world-themes.$world-19);
 }

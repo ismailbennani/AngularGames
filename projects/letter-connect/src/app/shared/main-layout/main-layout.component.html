@@ -1,16 +1,23 @@
-<div class="header">
-    <button mat-icon-button routerLink="/">
-        <mat-icon>home</mat-icon>
-        <mat-divider [inset]="true" [vertical]="true"></mat-divider>
-    </button>
-    <div class="spacer"></div>
-    <div class="title">{{ title$ | async }}</div>
-    <div class="spacer"></div>
-    <button mat-icon-button (click)="reset()" *ngIf="canReset">
-        <mat-icon>clear</mat-icon>
-    </button>
-</div>
-<mat-divider></mat-divider>
-<div class="content">
-    <ng-content></ng-content>
+<div class="container" [ngClass]="theme$ | async">
+    <div class="header">
+        <button mat-icon-button routerLink="/">
+            <mat-icon>home</mat-icon>
+            <mat-divider [inset]="true" [vertical]="true"></mat-divider>
+        </button>
+        <div class="spacer"></div>
+        <div class="title">{{ title$ | async }}</div>
+        <div class="spacer"></div>
+        <ng-container *ngIf="devMode">
+            <button mat-icon-button (click)="next()">
+                <mat-icon>redo</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reset()">
+                <mat-icon>replay</mat-icon>
+            </button>
+        </ng-container>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
 </div>

@@ -3,6 +3,7 @@ import { GameService } from './game.service';
 import { GameOverResult } from './engine/engine';
 import { GameState } from './engine/game-state';
 import { TitleService } from '../shared/main-layout/title/title.service';
+import { ThemeService } from '../shared/main-layout/theme/theme.service';
 
 @Component({
     selector: 'app-game',
@@ -13,7 +14,11 @@ export class GameComponent implements OnInit {
     public levelOver: boolean = false;
     public won: boolean = false;
 
-    constructor(private gameService: GameService, private titleService: TitleService) {}
+    constructor(
+        private gameService: GameService,
+        private titleService: TitleService,
+        private themeService: ThemeService
+    ) {}
 
     ngOnInit(): void {
         const game = this.gameService.getOrCreate();
@@ -35,6 +40,10 @@ export class GameComponent implements OnInit {
 
         const title = `World ${state.worldCount} - Level ${state.levelCount}`;
         this.titleService.set(title);
+
+        const themes = this.themeService.getThemes();
+        const theme = themes[(state.worldCount - 1) % themes.length];
+        this.themeService.set(theme);
     }
 
     @HostListener('window:keyup.enter', ['$event'])

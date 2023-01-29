@@ -1,0 +1,120 @@
+@use '@angular/material' as mat;
+
+$world-1: mat.$purple-palette;
+$world-2: mat.$deep-purple-palette;
+$world-3: mat.$indigo-palette;
+$world-4: mat.$blue-palette;
+$world-5: mat.$light-blue-palette;
+$world-6: mat.$cyan-palette;
+$world-7: mat.$teal-palette;
+$world-8: mat.$green-palette;
+$world-9: mat.$light-green-palette;
+$world-10: mat.$lime-palette;
+$world-11: mat.$yellow-palette;
+$world-12: mat.$amber-palette;
+$world-13: mat.$orange-palette;
+$world-14: mat.$deep-orange-palette;
+$world-15: mat.$brown-palette;
+$world-16: mat.$grey-palette;
+$world-17: mat.$blue-gray-palette;
+$world-18: mat.$red-palette;
+$world-19: mat.$pink-palette;
+
+$accent: (
+    50: #edf5ea,
+    100: #d2e5ca,
+    200: #b5d4a7,
+    300: #97c284,
+    400: #80b569,
+    500: #6aa84f,
+    600: #62a048,
+    700: #57973f,
+    800: #4d8d36,
+    900: #3c7d26,
+    A100: #cdffbe,
+    A200: #a6ff8b,
+    A400: #7fff58,
+    A700: #6cff3f,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #000000,
+        400: #000000,
+        500: #000000,
+        600: #000000,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000,
+    ),
+);
+
+$warn: (
+    50: #f9e0e0,
+    100: #f0b3b3,
+    200: #e68080,
+    300: #db4d4d,
+    400: #d42626,
+    500: #cc0000,
+    600: #c70000,
+    700: #c00000,
+    800: #b90000,
+    900: #ad0000,
+    A100: #ffd7d7,
+    A200: #ffa4a4,
+    A400: #ff7171,
+    A700: #ff5858,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #ffffff,
+        400: #ffffff,
+        500: #ffffff,
+        600: #ffffff,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000,
+    ),
+);
+
+$ok: (
+    50: #edf5ea,
+    100: #d2e5ca,
+    200: #b5d4a7,
+    300: #97c284,
+    400: #80b569,
+    500: #6aa84f,
+    600: #62a048,
+    700: #57973f,
+    800: #4d8d36,
+    900: #3c7d26,
+    A100: #cdffbe,
+    A200: #a6ff8b,
+    A400: #7fff58,
+    A700: #6cff3f,
+    contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #000000,
+        400: #000000,
+        500: #000000,
+        600: #000000,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #000000,
+        A400: #000000,
+        A700: #000000,
+    ),
+);

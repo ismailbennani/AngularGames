@@ -2,6 +2,7 @@ import { Component, isDevMode } from '@angular/core';
 import { GameService } from '../../game/game.service';
 import { Observable } from 'rxjs';
 import { TitleService } from './title/title.service';
+import { ThemeService } from './theme/theme.service';
 
 @Component({
     selector: 'app-main-layout',
@@ -13,14 +14,26 @@ export class MainLayoutComponent {
         return this.titleService.title$;
     }
 
-    constructor(private gameService: GameService, private titleService: TitleService) {}
+    public get theme$(): Observable<string> {
+        return this.themeService.theme$;
+    }
 
-    public get canReset() {
+    constructor(
+        private gameService: GameService,
+        private titleService: TitleService,
+        private themeService: ThemeService
+    ) {}
+
+    public get devMode() {
         return isDevMode();
+    }
+
+    public next() {
+        this.gameService.next();
     }
 
     public reset() {
         this.gameService.clear();
-        location.replace('/');
+        location.reload();
     }
 }
