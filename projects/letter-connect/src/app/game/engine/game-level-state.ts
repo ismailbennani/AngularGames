@@ -1,5 +1,5 @@
 import { Bounds, Crossword, Word } from './crossword';
-import { shuffle } from '../../shared/helpers/array-helpers';
+import { pickAtRandom, shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
 import dictionaryFr from '../../../assets/dictionary-fr';
 import { GameOverResult } from './engine';
@@ -196,7 +196,10 @@ function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
             break;
     }
 
-    const letters = shuffle(alphabet).slice(0, numberOfLetters);
+    const letters = [];
+    while (letters.length < numberOfLetters) {
+        letters.push(pickAtRandom(alphabet));
+    }
 
     return {
         letters,
