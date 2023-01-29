@@ -1,8 +1,10 @@
-<div class="top">
-    <app-game-grid [grid]="grid" [reveal]="true"></app-game-grid>
-</div>
-<div class="separator"></div>
-<div class="bottom">
-    <button mat-raised-button color="primary" (click)="continue()" *ngIf="canContinue">Continue</button>
-    <button mat-raised-button color="primary" (click)="newGame()">New Game</button>
+<div class="container default-theme">
+    <div class="top">
+        <app-game-grid [grid]="grid" [reveal]="true"></app-game-grid>
+    </div>
+    <div class="separator"></div>
+    <div class="bottom">
+        <button mat-raised-button color="primary" (click)="continue()" *ngIf="canContinue">Continue</button>
+        <button mat-raised-button color="primary" (click)="newGame()">New Game</button>
+    </div>
 </div>
