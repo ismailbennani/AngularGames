@@ -42,7 +42,7 @@ jobs:
         run: npm ci
 
       - name: Build v${{ steps.version.outputs.version || '?' }}
-        run: npm run build
+        run: npm run build --base-href "/AngularGames/"
 
       - name: Test
         run: npm run test-ci

@@ -7,7 +7,7 @@ import math
 
 if __name__ == "__main__":
   package_json_path = 'package.json'
-  environment_path = 'src/environments/environment.prod.ts'
+  environment_path = 'projects/letter-connect/src/environments/environment.prod.ts'
 
   if (not os.path.exists(package_json_path)):
     print(f'::error file={package_json_path}::Could not find package.json')
