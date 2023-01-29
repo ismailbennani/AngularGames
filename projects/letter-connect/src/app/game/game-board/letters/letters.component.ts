@@ -154,7 +154,10 @@ export class LettersComponent implements OnInit {
     @HostListener('window:keyup.enter', ['$event'])
     private enterPressed(event: KeyboardEvent) {
         this.triggerAttempt();
-        event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.preventDefault();
+
+        return false;
     }
 
     @HostListener('window:keyup.backspace', ['$event'])
@@ -163,12 +166,18 @@ export class LettersComponent implements OnInit {
         if (index >= 0) {
             this.removeLetter(this.currentWord.length - index - 1);
         }
-        event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.preventDefault();
+
+        return false;
     }
 
     @HostListener('window:keyup.escape', ['$event'])
     private escapePressed(event: KeyboardEvent) {
         this.clear();
-        event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.preventDefault();
+
+        return false;
     }
 }

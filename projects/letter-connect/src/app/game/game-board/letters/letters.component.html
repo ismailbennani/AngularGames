@@ -1,18 +1,35 @@
 <div class="input">
     <div>
-        <button mat-icon-button class="cancel" [disabled]="!canClear || disabled" (click)="clear()">
+        <button
+            mat-icon-button
+            (keydown.enter)="$event.preventDefault()"
+            class="cancel"
+            [disabled]="!canClear || disabled"
+            (click)="clear()"
+        >
             <mat-icon> clear</mat-icon>
         </button>
     </div>
 
     <div *ngFor="let letter of currentWord; let index = index" class="letter-cell">
-        <button mat-icon-button [disabled]="disabled" (click)="removeLetter(index)">
+        <button
+            mat-icon-button
+            (keydown.enter)="$event.preventDefault()"
+            [disabled]="disabled"
+            (click)="removeLetter(index)"
+        >
             {{ letter }}
         </button>
     </div>
 
     <div>
-        <button mat-icon-button class="confirm" [disabled]="!canTrigger || disabled" (click)="triggerAttempt()">
+        <button
+            mat-icon-button
+            (keydown.enter)="$event.preventDefault()"
+            class="confirm"
+            [disabled]="!canTrigger || disabled"
+            (click)="triggerAttempt()"
+        >
             <mat-icon> check</mat-icon>
         </button>
     </div>
@@ -20,7 +37,7 @@
 
 <div class="choices">
     <div class="left-side">
-        <button mat-icon-button (click)="shuffleLetters()">
+        <button mat-icon-button (keydown.enter)="$event.preventDefault()" (click)="shuffleLetters()">
             <mat-icon>shuffle</mat-icon>
         </button>
     </div>
@@ -31,14 +48,19 @@
                 class="letter-cell"
                 [class.used]="used[index]"
             >
-                <button mat-icon-button [disabled]="disabled" (click)="addLetter(letter)">
+                <button
+                    mat-icon-button
+                    (keydown.enter)="$event.preventDefault()"
+                    [disabled]="disabled"
+                    (click)="addLetter(letter)"
+                >
                     {{ letter }}
                 </button>
             </mat-grid-tile>
         </mat-grid-list>
     </div>
     <div class="right-side">
-        <button mat-icon-button (click)="askHint()">
+        <button mat-icon-button (keydown.enter)="$event.preventDefault()" (click)="askHint()">
             <mat-icon>support</mat-icon>
         </button>
     </div>
