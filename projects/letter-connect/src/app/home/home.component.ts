@@ -21,11 +21,14 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         const settings: CrosswordGeneratorSettings = {
             dictionary: ['LETTER', 'CONNECT'],
+            longerWordHoriz: false,
             maxNumberOfWords: 2,
         };
 
         const crossword = generateCrossword(settings);
         this.grid = createGameGrid(crossword);
+
+        console.log('Grid', this.grid);
 
         const letter = crossword.words.find((w) => w.word === 'LETTER');
         if (letter) {

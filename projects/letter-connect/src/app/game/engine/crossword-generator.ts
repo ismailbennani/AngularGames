@@ -10,17 +10,18 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
 
     const dictionary = [...settings.dictionary];
     const words: Word[] = [];
+    const longerWordHoriz: boolean = settings.longerWordHoriz ?? true;
 
     // pick first word
     const longestWordSize = Math.max(...dictionary.map((w) => w.length));
     const longestWords = dictionary.filter((w) => w.length == longestWordSize);
     const oneOfLongestWords = shuffle(longestWords)[0];
-    const bounds = getValidBounds(words, oneOfLongestWords, true);
-    words.push({ word: oneOfLongestWords, horiz: true, bounds: pickAtRandom(bounds) });
+    const bounds = getValidBounds(words, oneOfLongestWords, longerWordHoriz);
+    words.push({ word: oneOfLongestWords, horiz: longerWordHoriz, bounds: pickAtRandom(bounds) });
     removeAllMatches(dictionary, oneOfLongestWords);
 
     // pick other words
-    let horiz = false;
+    let horiz = !longerWordHoriz;
     let tries = 0;
     const maxTries = 1000;
     while (dictionary.length > 0 && words.length < settings.maxNumberOfWords && tries < maxTries) {
@@ -55,6 +56,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
 
 export interface CrosswordGeneratorSettings {
     readonly dictionary: string[];
+    readonly longerWordHoriz?: boolean;
     readonly maxNumberOfWords: number;
 }
 
