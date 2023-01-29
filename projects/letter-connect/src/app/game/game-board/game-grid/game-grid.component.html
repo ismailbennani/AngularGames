@@ -1,5 +1,5 @@
 <ng-container *ngIf="grid?.cells">
-  <mat-grid-list [cols]="grid?.width" rowHeight="20px" [ngStyle]="{ 'width.px': 20 * (grid?.cells?.length ?? 0) }">
+  <mat-grid-list [cols]="grid?.width" rowHeight="20px" [ngStyle]="{ 'width.px': 20 * (grid?.width ?? 0) }">
     <ng-container *ngFor="let cellLine of grid?.cells">
       <ng-container *ngFor="let cell of cellLine">
         <mat-grid-tile class="grid-cell" [class.has-letter]="cell">

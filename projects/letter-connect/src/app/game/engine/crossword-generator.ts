@@ -1,19 +1,30 @@
 import { Bounds, boundsOverlap, Crossword, Word } from './crossword';
-import { pickAtRandom } from '../../shared/helpers/array-helpers';
+import { pickAtRandom, shuffle } from '../../shared/helpers/array-helpers';
 
 export const generateCrossword = (settings: CrosswordGeneratorSettings): Crossword => {
     console.log('Generating crossword with settings...', settings);
 
+    if (!settings.dictionary.length) {
+        throw new Error('No words in dictionary');
+    }
+
     const dictionary = [...settings.dictionary];
     const words: Word[] = [];
-    const maxTries = 10000;
 
-    let horiz = true;
+    // pick first word
+    const longestWordSize = dictionary.reduce((acc, w) => (w.length > acc ? w.length : acc), 0);
+    const longestWords = dictionary.filter((w) => w.length == longestWordSize);
+    const oneOfLongestWords = shuffle(longestWords)[0];
+    const bounds = getValidBounds(words, oneOfLongestWords, true);
+    words.push({ word: oneOfLongestWords, horiz: true, bounds: pickAtRandom(bounds) });
+
+    // pick other words
+    let horiz = false;
     let tries = 0;
+    const maxTries = 1000;
     while (dictionary.length > 0 && words.length < settings.maxNumberOfWords && tries < maxTries) {
         const wordIndex = Math.floor(Math.random() * dictionary.length);
         const word = dictionary[wordIndex];
-        dictionary.splice(wordIndex, 1);
 
         const bounds: Bounds[] = getValidBounds(words, word, horiz);
 
@@ -21,9 +32,16 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
             continue;
         }
 
+        dictionary.splice(wordIndex, 1);
+
         words.push({ word, horiz, bounds: pickAtRandom(bounds) });
 
         horiz = !horiz;
+        tries++;
+    }
+
+    if (tries >= maxTries) {
+        console.log('Could not place all required words');
     }
 
     const result = { words };
@@ -64,19 +82,7 @@ function getValidBounds(words: Word[], word: string, horiz: boolean): Bounds[] {
                     const y = horiz ? yInExistingWord : yInExistingWord - indexInWord;
                     const bounds = makeBounds(word, x, y, horiz);
 
-                    const boundsToCheck = {
-                        x: bounds.x - 1,
-                        y: bounds.y - 1,
-                        width: bounds.width + 2,
-                        height: bounds.height + 2,
-                    };
-
-                    if (
-                        overlap(
-                            words.filter((_, index) => index !== i),
-                            boundsToCheck
-                        )
-                    ) {
+                    if (!canAddWord(words, { word, horiz, bounds })) {
                         continue;
                     }
 
@@ -89,18 +95,63 @@ function getValidBounds(words: Word[], word: string, horiz: boolean): Bounds[] {
     return result;
 }
 
-function overlap(words: Word[], bounds: Bounds) {
+function canAddWord(words: Word[], word: Word): boolean {
     if (!words.length) {
-        return false;
+        return true;
     }
 
-    for (const word of words) {
-        if (boundsOverlap(word.bounds, bounds)) {
-            return true;
+    for (const otherWord of words) {
+        if (otherWord.horiz !== word.horiz && boundsOverlap(word.bounds, otherWord.bounds)) {
+            const otherWordIndex = otherWord.horiz
+                ? word.bounds.x - otherWord.bounds.x
+                : word.bounds.y - otherWord.bounds.y;
+
+            const wordIndex = word.horiz ? otherWord.bounds.x - word.bounds.x : otherWord.bounds.y - word.bounds.y;
+
+            if (otherWord.word[otherWordIndex] !== word.word[wordIndex]) {
+                return false;
+            }
+        } else {
+            const topBounds = {
+                x: word.bounds.x,
+                y: word.bounds.y - 1,
+                width: word.bounds.width,
+                height: 1,
+            };
+
+            const bottomBounds = {
+                x: word.bounds.x,
+                y: word.bounds.y + 1,
+                width: word.bounds.width,
+                height: 1,
+            };
+
+            const leftBounds = {
+                x: word.bounds.x - 1,
+                y: word.bounds.y,
+                width: 1,
+                height: word.bounds.height,
+            };
+
+            const rightBounds = {
+                x: word.bounds.x + 1,
+                y: word.bounds.y,
+                width: 1,
+                height: word.bounds.height,
+            };
+
+            if (
+                boundsOverlap(topBounds, otherWord.bounds) ||
+                boundsOverlap(bottomBounds, otherWord.bounds) ||
+                boundsOverlap(leftBounds, otherWord.bounds) ||
+                boundsOverlap(rightBounds, otherWord.bounds)
+            ) {
+                return false;
+            }
         }
     }
 
-    return false;
+    return true;
 }
 
 function makeBounds(word: string, x: number, y: number, horiz: boolean) {
