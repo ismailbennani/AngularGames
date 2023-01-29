@@ -36,6 +36,19 @@
         align-items: center;
         justify-content: center;
     }
+
+    .help-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        color: var(--text-primary);
+
+        & mat-icon {
+            margin: 0;
+        }
+    }
 }
 
 button {
