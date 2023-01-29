@@ -103,7 +103,9 @@ function canAddWord(words: Word[], word: Word): boolean {
     }
 
     for (const otherWord of words) {
-        if (otherWord.horiz !== word.horiz && boundsOverlap(word.bounds, otherWord.bounds)) {
+        const overlap = boundsOverlap(word.bounds, otherWord.bounds);
+
+        if (otherWord.horiz !== word.horiz && overlap) {
             const otherWordIndex = otherWord.horiz
                 ? word.bounds.x - otherWord.bounds.x
                 : word.bounds.y - otherWord.bounds.y;
@@ -113,6 +115,8 @@ function canAddWord(words: Word[], word: Word): boolean {
             if (otherWord.word[otherWordIndex] !== word.word[wordIndex]) {
                 return false;
             }
+        } else if (otherWord.horiz === word.horiz && overlap) {
+            return false;
         } else {
             const topBounds = {
                 x: word.bounds.x,
