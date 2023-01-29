@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameState } from '../engine/game-state';
 import { GameService } from '../game.service';
+import { AttemptResult, Engine } from '../engine/engine';
 
 @Component({
     selector: 'app-game-board',
@@ -30,5 +31,25 @@ export class GameBoardComponent implements OnInit {
 
     ngOnInit(): void {
         this.gameService.state$.subscribe((s) => (this.gameState = s));
+    }
+
+    public attempt(word: string) {
+        if (!this.gameState) {
+            return;
+        }
+
+        const result = Engine.attempt(this.gameState, word);
+
+        switch (result) {
+            case AttemptResult.NotFound:
+                console.log(AttemptResult.NotFound);
+                break;
+            case AttemptResult.Found:
+                console.log(AttemptResult.Found);
+                break;
+            case AttemptResult.AlreadyFound:
+                console.log(AttemptResult.AlreadyFound);
+                break;
+        }
     }
 }

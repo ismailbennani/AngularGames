@@ -6,5 +6,6 @@
         [letters]="gameState.currentLevel.letters"
         [longestWordSize]="longestWordSize"
         [smallestWordSize]="smallestWordSize"
+        (attempt)="attempt($event)"
     ></app-letters>
 </ng-container>

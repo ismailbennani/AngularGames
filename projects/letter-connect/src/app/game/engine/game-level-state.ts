@@ -1,4 +1,4 @@
-import { Crossword } from './crossword';
+import { Bounds, Crossword } from './crossword';
 import { shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
 import dictionaryFr from '../../../assets/dictionary-fr';
@@ -12,8 +12,7 @@ export interface GameLevelState {
 }
 
 export interface GameGrid {
-    readonly width: number;
-    readonly height: number;
+    readonly bounds: Bounds;
     readonly cells: GameGridCell[][];
 }
 
@@ -82,7 +81,7 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
 
 export function createGameGrid(crossword: Crossword): GameGrid {
     if (!crossword.words.length) {
-        return { width: 0, height: 0, cells: [] };
+        return { bounds: { x: 0, y: 0, width: 0, height: 0 }, cells: [] };
     }
 
     const minX = crossword.words.reduce((acc, current) => (current.bounds.x < acc ? current.bounds.x : acc), Infinity);
@@ -124,7 +123,7 @@ export function createGameGrid(crossword: Crossword): GameGrid {
         }
     }
 
-    return { width, height, cells };
+    return { bounds: { x: minX, y: minY, width, height }, cells };
 }
 
 function areValidSettings(

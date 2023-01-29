@@ -57,7 +57,7 @@ export class LettersComponent implements OnInit {
     }
 
     public get canTrigger(): boolean {
-        return this.currentWord.filter((l) => l !== '').length > this._smallestWordSize;
+        return this.currentWord.filter((l) => l !== '').length >= this._smallestWordSize;
     }
 
     ngOnInit(): void {

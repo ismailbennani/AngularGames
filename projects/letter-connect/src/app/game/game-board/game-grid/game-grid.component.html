@@ -1,9 +1,9 @@
 <ng-container *ngIf="grid?.cells">
     <div #container class="container">
         <mat-grid-list
-            [cols]="grid?.width"
+            [cols]="grid?.bounds?.width"
             [rowHeight]="getCellSizeInPx() + 'px'"
-            [ngStyle]="{ 'width.px': getCellSizeInPx() * (grid?.width ?? 0) }"
+            [ngStyle]="{ 'width.px': getCellSizeInPx() * (grid?.bounds?.width ?? 0) }"
         >
             <ng-container *ngFor="let cellLine of grid?.cells">
                 <ng-container *ngFor="let cell of cellLine">

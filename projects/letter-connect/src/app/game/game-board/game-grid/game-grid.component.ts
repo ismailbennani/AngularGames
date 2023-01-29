@@ -24,6 +24,8 @@ export class GameGridComponent {
         const containerWidth = this.containerElement?.nativeElement.offsetWidth ?? 0;
         const containerHeight = this.containerElement?.nativeElement.offsetHeight ?? 0;
 
-        return !this.grid ? 0 : Math.min(containerWidth / this.grid.width, containerHeight / this.grid.height);
+        return !this.grid
+            ? 0
+            : Math.min(containerWidth / this.grid.bounds.width, containerHeight / this.grid.bounds.height);
     }
 }
