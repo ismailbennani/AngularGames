@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         const settings: CrosswordGeneratorSettings = {
-            dictionary: ['letter', 'connect'],
+            dictionary: ['LETTER', 'CONNECT'],
             maxNumberOfWords: 2,
         };
 

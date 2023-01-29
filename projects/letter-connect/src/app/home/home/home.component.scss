@@ -11,10 +11,16 @@
 
   .top {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
 
+    padding: mixins.size(5);
+
     height: 66%;
+
+    app-game-grid {
+      flex-grow: 1;
+    }
   }
 
   .separator {

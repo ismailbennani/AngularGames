@@ -1,12 +1,15 @@
 <ng-container *ngIf="grid?.cells">
-  <mat-grid-list [cols]="grid?.width" [rowHeight]="getCellSizeInPx() + 'px'" [ngStyle]="{ 'width.px': getCellSizeInPx() * (grid?.width ?? 0) }">
-    <ng-container *ngFor="let cellLine of grid?.cells">
-      <ng-container *ngFor="let cell of cellLine">
-        <mat-grid-tile class="grid-cell" [class.has-letter]="cell" [ngStyle]="{ 'fontSize.px': getFontSizeInPx() }">
-          {{ cell?.discovered || reveal ? cell?.letter : ' '}}
-        </mat-grid-tile>
+  <div #container class="container">
+    <mat-grid-list [cols]="grid?.width" [rowHeight]="getCellSizeInPx() + 'px'"
+                   [ngStyle]="{ 'width.px': getCellSizeInPx() * (grid?.width ?? 0) }">
+      <ng-container *ngFor="let cellLine of grid?.cells">
+        <ng-container *ngFor="let cell of cellLine">
+          <mat-grid-tile class="grid-cell" [class.has-letter]="cell" [ngStyle]="{ 'fontSize.px': getFontSizeInPx() }">
+            {{ cell?.discovered || reveal ? cell?.letter : ' '}}
+          </mat-grid-tile>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </mat-grid-list>
+    </mat-grid-list>
+  </div>
 
 </ng-container>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { GameGrid } from '../../engine/game-level-state';
 
 @Component({
@@ -7,36 +7,26 @@ import { GameGrid } from '../../engine/game-level-state';
     styleUrls: ['./game-grid.component.scss'],
 })
 export class GameGridComponent {
+    @ViewChild('container')
+    private containerElement: ElementRef | undefined;
+
     @Input()
     public grid: GameGrid | undefined;
 
     @Input()
-    public size: GameGridSize = 'medium';
-
-    @Input()
     public reveal: boolean = true;
 
+    private containerWidth: number = 0;
+    private containerHeight: number = 0;
+
     public getFontSizeInPx(): number {
-        switch (this.size) {
-            case 'small':
-                return 10;
-            case 'medium':
-                return 20;
-            case 'huge':
-                return 60;
-        }
+        return this.getCellSizeInPx() / 2;
     }
 
     public getCellSizeInPx(): number {
-        switch (this.size) {
-            case 'small':
-                return 20;
-            case 'medium':
-                return 40;
-            case 'huge':
-                return 120;
-        }
+        const containerWidth = this.containerElement?.nativeElement.offsetWidth ?? 0;
+        const containerHeight = this.containerElement?.nativeElement.offsetHeight ?? 0;
+
+        return !this.grid ? 0 : Math.min(containerWidth / this.grid.width, containerHeight / this.grid.height);
     }
 }
-
-export type GameGridSize = 'small' | 'medium' | 'huge';
