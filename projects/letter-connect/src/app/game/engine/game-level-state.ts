@@ -1,7 +1,8 @@
-import { Bounds, Crossword } from './crossword';
+import { Bounds, Crossword, Word } from './crossword';
 import { shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
 import dictionaryFr from '../../../assets/dictionary-fr';
+import { GameOverResult } from './engine';
 
 export interface GameLevelState {
     readonly difficulty: GameLevelDifficulty;
@@ -9,6 +10,7 @@ export interface GameLevelState {
     readonly crossword: Crossword;
     readonly grid: GameGrid;
     readonly letters: string[];
+    readonly gameOver: GameOverResult;
 }
 
 export interface GameGrid {
@@ -66,12 +68,13 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
     const crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords ?? 20 });
     const grid = createGameGrid(crossword);
 
-    const level = {
+    const level: GameLevelState = {
         difficulty,
         settings: settings,
         crossword,
         grid,
         letters: shuffle(settings.letters),
+        gameOver: GameOverResult.NotOver,
     };
 
     console.log('Level', level);
@@ -125,6 +128,34 @@ export function createGameGrid(crossword: Crossword): GameGrid {
 
     return { bounds: { x: minX, y: minY, width, height }, cells };
 }
+
+export const discoverWord = (grid: GameGrid, w: Word) => {
+    for (let i = 0; i < w.word.length; i++) {
+        const x = w.horiz ? w.bounds.x + i : w.bounds.x;
+        const y = w.horiz ? w.bounds.y : w.bounds.y + i;
+        const gridX = x - grid.bounds.x;
+        const gridY = y - grid.bounds.y;
+
+        if (!grid.cells[gridY][gridX]) {
+            throw new Error('Internal error');
+        }
+
+        grid.cells[gridY][gridX] = {
+            ...grid.cells[gridY][gridX]!,
+            discovered: true,
+        };
+    }
+};
+
+export const discoverGameGrid = (grid: GameGrid) => {
+    for (const cell of grid.cells.flatMap((line) => line)) {
+        if (!cell) {
+            continue;
+        }
+
+        (cell as any).discovered = true;
+    }
+};
 
 function areValidSettings(
     settings: GameLevelSettings | undefined,

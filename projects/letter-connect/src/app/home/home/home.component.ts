@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { createGameGrid, GameGrid } from '../../game/engine/game-level-state';
+import { createGameGrid, discoverWord, GameGrid } from '../../game/engine/game-level-state';
 import { CrosswordGeneratorSettings, generateCrossword } from '../../game/engine/crossword-generator';
 
 @Component({
@@ -18,5 +18,10 @@ export class HomeComponent implements OnInit {
 
         const crossword = generateCrossword(settings);
         this.grid = createGameGrid(crossword);
+
+        const letter = crossword.words.find((w) => w.word === 'LETTER');
+        if (letter) {
+            discoverWord(this.grid, letter);
+        }
     }
 }

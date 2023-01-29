@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameState } from '../engine/game-state';
 import { GameService } from '../game.service';
-import { AttemptResult, Engine, GameOverResult } from '../engine/engine';
+import { AttemptResult } from '../engine/engine';
 
 @Component({
     selector: 'app-game-board',
@@ -10,7 +10,6 @@ import { AttemptResult, Engine, GameOverResult } from '../engine/engine';
 })
 export class GameBoardComponent implements OnInit {
     public gameState: GameState | undefined;
-    public gameOver: GameOverResult = GameOverResult.NotOver;
 
     public get longestWordSize(): number {
         if (!this.gameState) {
@@ -39,7 +38,7 @@ export class GameBoardComponent implements OnInit {
             return;
         }
 
-        const result = Engine.attempt(this.gameState, word);
+        const result = this.gameService.attempt(word);
 
         switch (result) {
             case AttemptResult.NotFound:
@@ -52,7 +51,5 @@ export class GameBoardComponent implements OnInit {
                 console.log(AttemptResult.AlreadyFound);
                 break;
         }
-
-        this.gameOver = Engine.checkGameOver(this.gameState);
     }
 }

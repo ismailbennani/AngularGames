@@ -31,6 +31,7 @@ export class GameService {
 
     public attempt(word: string) {
         const result = Engine.attempt(this.state, word);
+        this.checkGameOver();
 
         this.notify();
 
@@ -38,11 +39,15 @@ export class GameService {
     }
 
     public checkGameOver() {
-        return Engine.checkGameOver(this.state);
+        const result = Engine.checkGameOver(this.state);
+
+        (this.state.currentLevel as any).gameOver = result;
+
+        return result;
     }
 
     private notify() {
-        this.stateSubject.next(this.state);
         localStorage.setItem(GameService.LocalStoreKey, JSON.stringify(this.state));
+        this.stateSubject.next(this.state);
     }
 }

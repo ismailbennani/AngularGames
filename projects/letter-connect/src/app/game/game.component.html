@@ -1,5 +1,12 @@
 <app-main-layout>
     <div class="container">
         <app-game-board></app-game-board>
+
+        <div class="game-over-overlay" [class.hidden]="gameOver === 'not-over'">
+            <div [class.won]="gameOver === 'won'" [class.lost]="gameOver === 'lost'">
+                <div>{{ gameOver === 'won' ? 'YOU WIN' : 'YOU LOSE' }}</div>
+                <button mat-raised-button>Next</button>
+            </div>
+        </div>
     </div>
 </app-main-layout>
