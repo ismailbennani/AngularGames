@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createNewGame, GameState } from './engine/game-state';
 import { Observable, ReplaySubject } from 'rxjs';
-import { CrosswordGeneratorSettings } from './engine/crossword-generator';
+import { GameLevelSettings } from './engine/game-level-state';
 
 @Injectable({
     providedIn: 'root',
@@ -16,8 +16,7 @@ export class GameService {
     }
 
     constructor() {
-        const settings: Partial<CrosswordGeneratorSettings> = {
-            dictionary: ['test', 'etst', 'word'],
+        const settings: GameLevelSettings = {
             letters: ['t', 'e', 's', 't'],
         };
         const newGame = createNewGame(settings);

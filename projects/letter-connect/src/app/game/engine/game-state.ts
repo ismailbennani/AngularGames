@@ -1,4 +1,4 @@
-import { createLevelState, GameLevelState } from './game-level-state';
+import { createLevelState, GameLevelSettings, GameLevelState } from './game-level-state';
 import { CrosswordGeneratorSettings } from './crossword-generator';
 
 export interface GameState {
@@ -7,7 +7,7 @@ export interface GameState {
     readonly currentLevel: GameLevelState;
 }
 
-export const createNewGame = (settings?: Partial<CrosswordGeneratorSettings>): GameState => {
+export const createNewGame = (settings: GameLevelSettings): GameState => {
     const currentLevel = createLevelState(settings);
 
     return {

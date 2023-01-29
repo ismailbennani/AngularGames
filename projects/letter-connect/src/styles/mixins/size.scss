@@ -1,0 +1,3 @@
+@function size($multiplier) {
+  @return $multiplier * 8px;
+}

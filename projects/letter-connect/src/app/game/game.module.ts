@@ -12,5 +12,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 @NgModule({
     declarations: [GameComponent, GameBoardComponent, GameGridComponent, LettersComponent],
     imports: [CommonModule, GameRoutingModule, MainLayoutModule, MatGridListModule],
+    exports: [GameBoardComponent, GameGridComponent],
 })
 export class GameModule {}
