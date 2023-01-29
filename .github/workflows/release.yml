@@ -32,8 +32,14 @@ jobs:
           name: build
           path: build
 
-      - name: Set correct base
+      - name: Set correct (src)
         run: sed -i 's/src="/<src="letter-connect\//g' build/letter-connect/index.html
+
+      - name: Set correct paths (styles)
+        run: sed -i 's/href="styles/<href="letter-connect\/styles/g' build/letter-connect/index.html
+
+      - name: Set correct paths (favicon)
+        run: sed -i 's/href="favicon/<href="letter-connect\/favicon/g' build/letter-connect/index.html
 
       - name: Use index.html as 404 page
         run: cp build/letter-connect/index.html build/letter-connect/404.html
