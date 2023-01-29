@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createNewGame, GameState } from './engine/game-state';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Engine } from './engine/engine';
+import { createLevelState, GameLevelDifficulty } from './engine/game-level-state';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,13 @@ export class GameService {
         (this.state.currentLevel as any).gameOver = result;
 
         return result;
+    }
+
+    public next(difficulty: GameLevelDifficulty) {
+        (this.state as any).levelCount++;
+        (this.state as any).currentLevel = createLevelState(difficulty);
+
+        this.notify();
     }
 
     private notify() {

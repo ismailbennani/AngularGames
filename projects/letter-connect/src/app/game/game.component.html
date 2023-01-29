@@ -4,8 +4,13 @@
 
         <div class="game-over-overlay" [class.hidden]="gameOver === 'not-over'">
             <div [class.won]="gameOver === 'won'" [class.lost]="gameOver === 'lost'">
-                <div>{{ gameOver === 'won' ? 'YOU WIN' : 'YOU LOSE' }}</div>
-                <button mat-raised-button>Next</button>
+                <div class="main-text">{{ gameOver === 'won' ? 'YOU WIN' : 'YOU LOSE' }}</div>
+                <div>Next</div>
+                <div class="next">
+                    <button mat-raised-button (click)="next('easy')">Easy</button>
+                    <button mat-raised-button (click)="next('normal')">Normal</button>
+                    <button mat-raised-button (click)="next('hard')">Hard</button>
+                </div>
             </div>
         </div>
     </div>

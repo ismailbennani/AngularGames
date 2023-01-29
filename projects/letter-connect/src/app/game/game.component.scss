@@ -28,12 +28,24 @@
     & > div {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         justify-content: center;
 
         padding: mixins.size(2);
-        font-size: 64px;
-        font-weight: bold;
+        gap: mixins.size(1);
+        text-align: center;
+
+        .main-text {
+            font-size: 64px;
+            font-weight: bold;
+        }
+
+        .next {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: mixins.size(2);
+        }
 
         &.won {
             background-color: var(--bg-ok);
