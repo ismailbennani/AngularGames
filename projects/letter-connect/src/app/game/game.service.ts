@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createNewGame, GameState } from './engine/game-state';
+import { GameState } from './engine/game-state';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Engine } from './engine/engine';
 import { createLevelState, GameLevelDifficulty } from './engine/game-level-state';
@@ -24,18 +24,49 @@ export class GameService {
     }
 
     public getOrCreate(): GameState {
-        let state: GameState | undefined;
-
         const stateStr = localStorage.getItem(GameService.LocalStoreKey);
         if (stateStr) {
-            state = JSON.parse(stateStr) as GameState;
-        }
+            this.state = JSON.parse(stateStr) as GameState;
+        } else {
+            const currentLevel = createLevelState(GameLevelDifficulty.Easy);
 
-        this.state = state ?? createNewGame();
+            this.state = {
+                settings: {
+                    easyLevelsPerWorld: 3,
+                    normalLevelsPerWorld: 5,
+                    hardLevelsPerWorld: 2,
+                },
+                worldCount: 1,
+                levelCount: 1,
+                currentLevel,
+            };
+        }
 
         this.notify();
 
         return this.state;
+    }
+
+    public next() {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
+        (this.state as any).levelCount++;
+        if (
+            this.state.levelCount >
+            this.state.settings.easyLevelsPerWorld +
+                this.state.settings.normalLevelsPerWorld +
+                this.state.settings.hardLevelsPerWorld
+        ) {
+            (this.state as any).worldCount++;
+            (this.state as any).levelCount = 1;
+        }
+
+        const difficulty = this.getDifficulty(this.state.levelCount);
+        (this.state as any).currentLevel = createLevelState(difficulty);
+
+        this.notify();
     }
 
     public attempt(word: string) {
@@ -72,13 +103,6 @@ export class GameService {
         return result;
     }
 
-    public next(difficulty: GameLevelDifficulty) {
-        (this.state as any).levelCount++;
-        (this.state as any).currentLevel = createLevelState(difficulty);
-
-        this.notify();
-    }
-
     private notify() {
         if (!this.state) {
             throw new Error('No game found');
@@ -90,5 +114,19 @@ export class GameService {
 
     public clear() {
         localStorage.removeItem(GameService.LocalStoreKey);
+    }
+
+    private getDifficulty(levelCount: number): GameLevelDifficulty {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
+        if (levelCount <= this.state.settings.easyLevelsPerWorld) {
+            return GameLevelDifficulty.Easy;
+        } else if (levelCount <= this.state.settings.easyLevelsPerWorld + this.state.settings.normalLevelsPerWorld) {
+            return GameLevelDifficulty.Normal;
+        } else {
+            return GameLevelDifficulty.Hard;
+        }
     }
 }

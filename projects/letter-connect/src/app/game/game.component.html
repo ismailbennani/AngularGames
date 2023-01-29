@@ -2,14 +2,12 @@
     <div class="container">
         <app-game-board></app-game-board>
 
-        <div class="game-over-overlay" [class.hidden]="gameOver === 'not-over'">
-            <div [class.won]="gameOver === 'won'" [class.lost]="gameOver === 'lost'">
-                <div class="main-text">{{ gameOver === 'won' ? 'YOU WIN' : 'YOU LOSE' }}</div>
+        <div class="game-over-overlay" [class.hidden]="!levelOver">
+            <div [class.won]="won" [class.lost]="!won">
+                <div class="main-text">{{ won ? 'YOU WIN' : 'YOU LOSE' }}</div>
                 <div>Next</div>
                 <div class="next">
-                    <button mat-raised-button (click)="next('easy')">Easy</button>
-                    <button mat-raised-button (click)="next('normal')">Normal</button>
-                    <button mat-raised-button (click)="next('hard')">Hard</button>
+                    <button mat-raised-button (click)="next()">Next</button>
                 </div>
             </div>
         </div>

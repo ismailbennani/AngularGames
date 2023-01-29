@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { GameService } from './game.service';
 import { GameOverResult } from './engine/engine';
 import { GameState } from './engine/game-state';
-import { GameLevelDifficulty } from './engine/game-level-state';
 
 @Component({
     selector: 'app-game',
@@ -10,7 +9,8 @@ import { GameLevelDifficulty } from './engine/game-level-state';
     styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-    public gameOver: GameOverResult = GameOverResult.NotOver;
+    public levelOver: boolean = false;
+    public won: boolean = false;
 
     constructor(private gameService: GameService) {}
 
@@ -20,11 +20,29 @@ export class GameComponent implements OnInit {
         this.gameService.state$.subscribe((s) => this.update(s));
     }
 
-    public next(difficulty: string) {
-        this.gameService.next(difficulty as GameLevelDifficulty);
+    public next() {
+        if (!this.levelOver) {
+            return;
+        }
+
+        this.gameService.next();
     }
 
     private update(state: GameState) {
-        this.gameOver = state.currentLevel.gameOver;
+        this.levelOver = state.currentLevel.gameOver !== GameOverResult.NotOver;
+        this.won = state.currentLevel.gameOver === GameOverResult.Won;
+    }
+
+    @HostListener('window:keyup.enter', ['$event'])
+    private enterPressed(event: KeyboardEvent) {
+        if (!this.levelOver) {
+            return;
+        }
+
+        this.next();
+
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
     }
 }

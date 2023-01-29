@@ -1,5 +1,5 @@
 <ng-container *ngIf="gameState">
-    <div class="header">Level {{ gameState.levelCount }}</div>
+    <div class="header">World {{ gameState.worldCount }} - Level {{ gameState.levelCount }}</div>
     <app-game-grid [grid]="gameState.currentLevel.grid"></app-game-grid>
     <div class="spacer"></div>
     <app-letters
