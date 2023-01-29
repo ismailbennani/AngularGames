@@ -15,6 +15,8 @@ export class GameComponent implements OnInit {
     constructor(private gameService: GameService) {}
 
     ngOnInit(): void {
+        const game = this.gameService.getOrCreate();
+        this.update(game);
         this.gameService.state$.subscribe((s) => this.update(s));
     }
 

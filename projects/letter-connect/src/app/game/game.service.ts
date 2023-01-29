@@ -9,7 +9,7 @@ import { createLevelState, GameLevelDifficulty } from './engine/game-level-state
 })
 export class GameService {
     private static readonly LocalStoreKey = 'save';
-    private state: GameState;
+    private state: GameState | undefined;
 
     private stateSubject: ReplaySubject<GameState> = new ReplaySubject<GameState>(1);
 
@@ -17,7 +17,13 @@ export class GameService {
         return this.stateSubject.asObservable();
     }
 
-    constructor() {
+    constructor() {}
+
+    public hasSavedGame(): boolean {
+        return !!localStorage.getItem(GameService.LocalStoreKey);
+    }
+
+    public getOrCreate(): GameState {
         let state: GameState | undefined;
 
         const stateStr = localStorage.getItem(GameService.LocalStoreKey);
@@ -28,9 +34,15 @@ export class GameService {
         this.state = state ?? createNewGame();
 
         this.notify();
+
+        return this.state;
     }
 
     public attempt(word: string) {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
         const result = Engine.attempt(this.state, word);
         this.checkGameOver();
         this.notify();
@@ -39,12 +51,20 @@ export class GameService {
     }
 
     public hint() {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
         Engine.hint(this.state);
         this.checkGameOver();
         this.notify();
     }
 
     public checkGameOver() {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
         const result = Engine.checkGameOver(this.state);
 
         (this.state.currentLevel as any).gameOver = result;
@@ -60,7 +80,15 @@ export class GameService {
     }
 
     private notify() {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
         localStorage.setItem(GameService.LocalStoreKey, JSON.stringify(this.state));
         this.stateSubject.next(this.state);
+    }
+
+    public clear() {
+        localStorage.removeItem(GameService.LocalStoreKey);
     }
 }

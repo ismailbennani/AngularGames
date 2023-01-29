@@ -1,4 +1,5 @@
 import { Component, isDevMode } from '@angular/core';
+import { GameService } from '../../game/game.service';
 
 @Component({
     selector: 'app-main-layout',
@@ -6,12 +7,14 @@ import { Component, isDevMode } from '@angular/core';
     styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent {
+    constructor(private gameService: GameService) {}
+
     public get canReset() {
         return isDevMode();
     }
 
     public reset() {
-        localStorage.clear();
+        this.gameService.clear();
         location.replace('/');
     }
 }
