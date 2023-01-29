@@ -15,7 +15,13 @@ export class GameService {
     }
 
     constructor() {
-        this.state = createNewGame({ words: [], letters: [] });
+        const settings = { dictionary: ['test', 'word'], letters: ['t', 'e', 's', 't'] };
+        const newGame = createNewGame(settings);
+        if (!newGame) {
+            throw Error('Could not create game with settings ' + settings);
+        }
+
+        this.state = newGame;
         this.notify();
     }
 

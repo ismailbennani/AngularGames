@@ -1,5 +1,10 @@
 import { Crossword } from './crossword';
 import { shuffle } from '../../shared/helpers/array-helpers';
+import {
+    CrosswordGeneratorSettings,
+    DEFAULT_CROSSWORD_GENERATOR_SETTINGS,
+    generateCrossword,
+} from './crossword-generator';
 
 export interface GameLevelState {
     readonly crossword: Crossword;
@@ -18,12 +23,19 @@ export interface GameGridCell {
     readonly discovered: boolean;
 }
 
-export const createLevelState = (crossword: Crossword): GameLevelState => ({
-    crossword,
-    grid: {
-        width: 0,
-        height: 0,
-        cells: [],
-    },
-    letters: shuffle(crossword.letters),
-});
+export const createLevelState = (settings?: Partial<CrosswordGeneratorSettings>): GameLevelState | null => {
+    const crossword = generateCrossword({ ...DEFAULT_CROSSWORD_GENERATOR_SETTINGS, ...(settings ?? {}) });
+    if (!crossword) {
+        return null;
+    }
+
+    return {
+        crossword,
+        grid: {
+            width: 0,
+            height: 0,
+            cells: [],
+        },
+        letters: shuffle(crossword.letters),
+    };
+};
