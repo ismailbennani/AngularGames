@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, isDevMode, ViewChild } from '@angular/core';
+import { Component, Input, isDevMode } from '@angular/core';
 import { GameGrid } from '../../engine/game-level-state';
 
 @Component({
@@ -7,9 +7,6 @@ import { GameGrid } from '../../engine/game-level-state';
     styleUrls: ['./game-grid.component.scss'],
 })
 export class GameGridComponent {
-    @ViewChild('container')
-    private containerElement: ElementRef | undefined;
-
     @Input()
     public grid: GameGrid | undefined;
 
@@ -21,8 +18,8 @@ export class GameGridComponent {
     }
 
     public getCellSizeInPx(): number {
-        const containerWidth = this.containerElement?.nativeElement.offsetWidth ?? 0;
-        const containerHeight = this.containerElement?.nativeElement.offsetHeight ?? 0;
+        const containerWidth = window.innerWidth * 0.9;
+        const containerHeight = window.innerHeight * 0.6;
 
         return !this.grid
             ? 0
