@@ -1,18 +1,18 @@
 <div class="input">
     <div>
-        <button mat-icon-button class="cancel" [disabled]="!canClear" (click)="clear()">
+        <button mat-icon-button class="cancel" [disabled]="!canClear || disabled" (click)="clear()">
             <mat-icon> clear</mat-icon>
         </button>
     </div>
 
     <div *ngFor="let letter of currentWord; let index = index" class="letter-cell">
-        <button mat-icon-button (click)="removeLetter(index)">
+        <button mat-icon-button [disabled]="disabled" (click)="removeLetter(index)">
             {{ letter }}
         </button>
     </div>
 
     <div>
-        <button mat-icon-button class="confirm" [disabled]="!canTrigger" (click)="triggerAttempt()">
+        <button mat-icon-button class="confirm" [disabled]="!canTrigger || disabled" (click)="triggerAttempt()">
             <mat-icon> check</mat-icon>
         </button>
     </div>
@@ -21,7 +21,7 @@
 <div class="choices">
     <mat-grid-list [cols]="cols" rowHeight="48px" [ngStyle]="{ 'width.px': 48 * cols }">
         <mat-grid-tile *ngFor="let letter of letters; let index = index" class="letter-cell" [class.used]="used[index]">
-            <button mat-icon-button (click)="addLetter(letter)">
+            <button mat-icon-button [disabled]="disabled" (click)="addLetter(letter)">
                 {{ letter }}
             </button>
         </mat-grid-tile>

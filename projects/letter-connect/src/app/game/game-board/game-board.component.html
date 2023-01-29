@@ -3,9 +3,17 @@
     <app-game-grid [grid]="gameState.currentLevel.grid"></app-game-grid>
     <div class="spacer"></div>
     <app-letters
+        [disabled]="gameOver !== 'not-over'"
         [letters]="gameState.currentLevel.letters"
         [longestWordSize]="longestWordSize"
         [smallestWordSize]="smallestWordSize"
         (attempt)="attempt($event)"
     ></app-letters>
+
+    <div class="game-over-overlay" [class.hidden]="gameOver === 'not-over'">
+        <div [class.won]="gameOver === 'won'" [class.lost]="gameOver === 'lost'">
+            <div>{{ gameOver === 'won' ? 'YOU WIN' : 'YOU LOSE' }}</div>
+            <button mat-raised-button>Next</button>
+        </div>
+    </div>
 </ng-container>

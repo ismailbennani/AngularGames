@@ -31,3 +31,41 @@ app-game-grid {
 .spacer {
     flex-grow: 1;
 }
+
+.game-over-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: mixins.size(2);
+        font-size: 64px;
+        font-weight: bold;
+
+        &.won {
+            background-color: var(--bg-ok);
+            color: var(--text-on-ok) !important;
+        }
+
+        &.lost {
+            background-color: var(--bg-warn);
+            color: var(--text-on-warn) !important;
+        }
+    }
+}
+
+.hidden {
+    display: none !important;
+}

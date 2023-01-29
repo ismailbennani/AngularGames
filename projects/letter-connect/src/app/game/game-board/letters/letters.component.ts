@@ -42,6 +42,9 @@ export class LettersComponent implements OnInit {
 
     private _smallestWordSize: number = 0;
 
+    @Input()
+    public disabled: boolean = false;
+
     @Output()
     public attempt: EventEmitter<string> = new EventEmitter<string>();
 
@@ -65,6 +68,10 @@ export class LettersComponent implements OnInit {
     }
 
     public addLetter(letter: string) {
+        if (this.disabled) {
+            return;
+        }
+
         const notUsedIndex = this._letters.findIndex((l, i) => l == letter.toUpperCase() && !this.used[i]);
         if (notUsedIndex < 0) {
             return;
@@ -81,6 +88,10 @@ export class LettersComponent implements OnInit {
     }
 
     public removeLetter(index: number) {
+        if (this.disabled) {
+            return;
+        }
+
         const letter = this.currentWord[index];
         for (let i = 0; i < this._letters.length; i++) {
             if (this._letters[i] == letter && this.used[i]) {
@@ -94,17 +105,21 @@ export class LettersComponent implements OnInit {
     }
 
     public triggerAttempt() {
-        if (!this.canTrigger) {
+        if (!this.canTrigger || this.disabled) {
             return;
         }
 
         const word = ''.concat(...this.currentWord);
-        this.attempt.emit(word);
-
         this.clear();
+
+        this.attempt.emit(word);
     }
 
     public clear() {
+        if (this.disabled) {
+            return;
+        }
+
         this.currentWord.fill('');
         this.used.fill(false);
     }

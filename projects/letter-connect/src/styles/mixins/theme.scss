@@ -58,11 +58,13 @@
     --bg-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
     --bg-secondary: #{map.get(map.get($theme, 'primary-palette'), 100)};
     --bg-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
+    --bg-ok: #{map.get(map.get($theme, 'ok-palette'), 500)};
     --bg-warn: #{map.get(map.get($theme, 'warn-palette'), 500)};
 
     --border-neutral: grey;
     --border-primary: #{map.get(map.get($theme, 'primary-palette'), 800)};
     --border-accent: #{map.get(map.get($theme, 'accent-palette'), 800)};
+    --border-ok: #{map.get(map.get($theme, 'ok-palette'), 800)};
     --border-warn: #{map.get(map.get($theme, 'warn-palette'), 800)};
 
     --text-neutral: slategrey;
