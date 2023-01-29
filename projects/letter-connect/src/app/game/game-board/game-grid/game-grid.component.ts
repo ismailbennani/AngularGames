@@ -9,4 +9,7 @@ import { GameGrid } from '../../engine/game-level-state';
 export class GameGridComponent {
     @Input()
     public grid: GameGrid | undefined;
+
+    @Input()
+    public reveal: boolean = true;
 }

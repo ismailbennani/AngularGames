@@ -22,9 +22,8 @@ export class GameService {
             minNumberOfWords: 2,
         };
         const newGame = createNewGame(settings);
-        if (!newGame) {
-            throw Error('Could not create game with settings ' + settings);
-        }
+
+        console.log(newGame);
 
         this.state = newGame;
         this.notify();
