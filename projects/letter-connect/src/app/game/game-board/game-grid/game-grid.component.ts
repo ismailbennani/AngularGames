@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, isDevMode, ViewChild } from '@angular/core';
 import { GameGrid } from '../../engine/game-level-state';
 
 @Component({
@@ -14,10 +14,7 @@ export class GameGridComponent {
     public grid: GameGrid | undefined;
 
     @Input()
-    public reveal: boolean = true;
-
-    private containerWidth: number = 0;
-    private containerHeight: number = 0;
+    public reveal: boolean = isDevMode();
 
     public getFontSizeInPx(): number {
         return this.getCellSizeInPx() / 2;
