@@ -17,10 +17,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
     const oneOfLongestWords = shuffle(longestWords)[0];
     const bounds = getValidBounds(words, oneOfLongestWords, true);
     words.push({ word: oneOfLongestWords, horiz: true, bounds: pickAtRandom(bounds) });
-    dictionary.splice(
-        dictionary.findIndex((w) => w == oneOfLongestWords),
-        1
-    );
+    removeAllMatches(dictionary, oneOfLongestWords);
 
     // pick other words
     let horiz = false;
@@ -38,7 +35,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
             continue;
         }
 
-        dictionary.splice(wordIndex, 1);
+        removeAllMatches(dictionary, word);
 
         words.push({ word, horiz, bounds: pickAtRandom(bounds) });
 
@@ -161,4 +158,12 @@ function canAddWord(words: Word[], word: Word): boolean {
 
 function makeBounds(word: string, x: number, y: number, horiz: boolean) {
     return { x: x, y: y, width: horiz ? word.length : 1, height: horiz ? 1 : word.length };
+}
+
+function removeAllMatches(dictionary: string[], oneOfLongestWords: string) {
+    let index;
+    do {
+        index = dictionary.findIndex((w) => w == oneOfLongestWords);
+        dictionary.splice(index, 1);
+    } while (index >= 0);
 }
