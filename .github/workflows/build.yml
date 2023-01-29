@@ -42,7 +42,7 @@ jobs:
         run: npm ci
 
       - name: Build v${{ steps.version.outputs.version || '?' }}
-        run: ng build letter-connect --base-href "/AngularGames/letter-connect"
+        run: npm run build-letter-connect
 
       - name: Test
         run: npm run test-ci
