@@ -57,10 +57,6 @@ export class GameComponent implements OnInit {
                 ? state.worldSettings.randomSeed.substring(0, 20) + '...'
                 : state.worldSettings.randomSeed;
         this.title = `${worldName} - Level ${state.levelCount}`;
-
-        const themes = this.themeService.getThemes();
-        const theme = themes[(state.worldCount - 1) % themes.length];
-        this.themeService.set(theme);
     }
 
     @HostListener('window:keyup.enter', ['$event'])

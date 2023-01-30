@@ -4,6 +4,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { Engine } from './engine/engine';
 import { createLevelState, GameLevelDifficulty } from './engine/game-level-state';
 import { SeededRandom } from '../shared/helpers/random-helpers';
+import { ThemeService } from '../shared/main-layout/theme/theme.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +19,7 @@ export class GameService {
         return this.stateSubject.asObservable();
     }
 
-    constructor() {}
+    constructor(private themeService: ThemeService) {}
 
     public hasSavedGame(): boolean {
         return !!localStorage.getItem(GameService.LocalStoreKey);
@@ -45,7 +46,7 @@ export class GameService {
                 hardLevelsPerWorld: 2,
                 ...settings,
             },
-            worldCount: 0,
+            worldCount: 1,
             oldWorldSettings: [],
         };
 
@@ -61,8 +62,6 @@ export class GameService {
 
         this.state = {
             ...this.state,
-
-            worldCount: this.state.worldCount + 1,
             worldSettings: { randomSeed: seed },
 
             levelCount: 0,
@@ -92,6 +91,8 @@ export class GameService {
                 this.state.gameSettings.hardLevelsPerWorld
         ) {
             (this.state as any).oldWorldSettings = [this.state.worldSettings, ...this.state.oldWorldSettings];
+
+            (this.state as any).worldCount++;
             (this.state as any).worldSettings = undefined;
         }
 
@@ -162,6 +163,11 @@ export class GameService {
         }
 
         localStorage.setItem(GameService.LocalStoreKey, JSON.stringify(this.state));
+
+        const themes = this.themeService.getThemes();
+        const theme = themes[(this.state.worldCount - 1) % themes.length];
+        this.themeService.set(theme);
+
         this.stateSubject.next(this.state);
     }
 

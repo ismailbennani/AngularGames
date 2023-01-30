@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { pickAtRandom } from '../../shared/helpers/array-helpers';
 import { SeededRandom } from '../../shared/helpers/random-helpers';
 import nouns from '../content/nouns';
+import { ThemeService } from '../../shared/main-layout/theme/theme.service';
 
 @Component({
     selector: 'app-new-world',
@@ -14,7 +15,7 @@ export class NewWorldComponent implements OnInit {
     public title: string = '';
     public seeds: string[] = ['Random', 'seed'];
 
-    constructor(private gameService: GameService, private router: Router) {}
+    constructor(private gameService: GameService, private themeService: ThemeService, private router: Router) {}
 
     public ngOnInit() {
         let game = this.gameService.get();
