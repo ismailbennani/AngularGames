@@ -41,6 +41,14 @@
 .content {
     position: relative;
     flex-grow: 1;
+
+    .dev-commands {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        color: var(--text-primary);
+    }
 }
 
 .spacer {

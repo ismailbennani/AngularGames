@@ -6,19 +6,20 @@
                 <mat-divider [inset]="true" [vertical]="true"></mat-divider>
             </button>
             <div class="spacer"></div>
-            <ng-container *ngIf="devMode">
-                <button mat-icon-button (click)="next()">
-                    <mat-icon>redo</mat-icon>
-                </button>
-                <button mat-icon-button (click)="reset()">
-                    <mat-icon>replay</mat-icon>
-                </button>
-            </ng-container>
         </div>
         <div class="title">{{ title$ | async }}</div>
     </div>
     <mat-divider></mat-divider>
     <div class="content">
         <ng-content></ng-content>
+
+        <div class="dev-commands" *ngIf="devMode">
+            <button mat-icon-button (click)="next()">
+                <mat-icon>redo</mat-icon>
+            </button>
+            <button mat-icon-button (click)="reset()">
+                <mat-icon>replay</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
