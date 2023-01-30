@@ -60,9 +60,9 @@ export interface CrosswordGeneratorSettings {
     readonly maxNumberOfWords: number;
 }
 
-function getValidBounds(words: Word[], word: string, horiz: boolean): Bounds[] {
+function getValidBounds(words: Word[], wordStr: string, horiz: boolean): Bounds[] {
     if (!words.length) {
-        return [makeBounds(word, 0, 0, horiz)];
+        return [makeBounds(wordStr, 0, 0, horiz)];
     }
 
     const result: Bounds[] = [];
@@ -73,8 +73,8 @@ function getValidBounds(words: Word[], word: string, horiz: boolean): Bounds[] {
         }
 
         for (let indexInExistingWord = 0; indexInExistingWord < existingWord.word.length; indexInExistingWord++) {
-            for (let indexInWord = 0; indexInWord < word.length; indexInWord++) {
-                if (existingWord.word[indexInExistingWord] === word[indexInWord]) {
+            for (let indexInWord = 0; indexInWord < wordStr.length; indexInWord++) {
+                if (existingWord.word[indexInExistingWord] === wordStr[indexInWord]) {
                     const xInExistingWord = existingWord.horiz
                         ? existingWord.bounds.x + indexInExistingWord
                         : existingWord.bounds.x;
@@ -84,13 +84,13 @@ function getValidBounds(words: Word[], word: string, horiz: boolean): Bounds[] {
 
                     const x = horiz ? xInExistingWord - indexInWord : xInExistingWord;
                     const y = horiz ? yInExistingWord : yInExistingWord - indexInWord;
-                    const bounds = makeBounds(word, x, y, horiz);
+                    const word = makeWord(wordStr, x, y, horiz);
 
-                    if (!canAddWord(words, { word, horiz, bounds })) {
+                    if (!canAddWord(words, word)) {
                         continue;
                     }
 
-                    result.push(bounds);
+                    result.push(word.bounds);
                 }
             }
         }
@@ -162,7 +162,11 @@ function canAddWord(words: Word[], word: Word): boolean {
     return true;
 }
 
-function makeBounds(word: string, x: number, y: number, horiz: boolean) {
+function makeWord(word: string, x: number, y: number, horiz: boolean): Word {
+    return { word, horiz, bounds: makeBounds(word, x, y, horiz) };
+}
+
+function makeBounds(word: string, x: number, y: number, horiz: boolean): Bounds {
     return { x: x, y: y, width: horiz ? word.length : 1, height: horiz ? 1 : word.length };
 }
 
