@@ -130,7 +130,7 @@ function canAddWord(words: Word[], word: Word): boolean {
 
             const bottomBounds = {
                 x: word.bounds.x,
-                y: word.bounds.y + 1,
+                y: word.bounds.y + word.bounds.height,
                 width: word.bounds.width,
                 height: 1,
             };
@@ -143,20 +143,11 @@ function canAddWord(words: Word[], word: Word): boolean {
             };
 
             const rightBounds = {
-                x: word.bounds.x + 1,
+                x: word.bounds.x + word.bounds.width,
                 y: word.bounds.y,
                 width: 1,
                 height: word.bounds.height,
             };
-
-            console.log(word.word);
-            console.log(topBounds, bottomBounds, leftBounds, rightBounds);
-            console.log(
-                boundsOverlap(topBounds, otherWord.bounds),
-                boundsOverlap(bottomBounds, otherWord.bounds),
-                boundsOverlap(leftBounds, otherWord.bounds),
-                boundsOverlap(rightBounds, otherWord.bounds)
-            );
 
             if (
                 boundsOverlap(topBounds, otherWord.bounds) ||
