@@ -8,12 +8,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./new-game.component.scss'],
 })
 export class NewGameComponent {
-    public seed: string = '';
+    public seeds: string[] = ['Test 1', 'Test 2', 'Test 3', 'Test 4'];
 
     constructor(private gameService: GameService, private router: Router) {}
 
-    public play() {
-        this.gameService.create(this.seed);
+    public play(seed: string) {
+        this.gameService.create(seed);
         this.router.navigateByUrl('/game').then();
     }
 }

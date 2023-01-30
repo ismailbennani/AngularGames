@@ -3,6 +3,18 @@
         color: var(--text-primary);
     }
 
+    &-on-primary {
+        color: var(--text-on-primary);
+    }
+
+    &-secondary {
+        color: var(--text-secondary);
+    }
+
+    &-on-secondary {
+        color: var(--text-on-secondary);
+    }
+
     &-single-line {
         white-space: nowrap;
     }

@@ -14,6 +14,7 @@ import { NewGameComponent } from './new-game/new-game.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     declarations: [GameComponent, GameBoardComponent, GameGridComponent, LettersComponent, NewGameComponent],
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
         MatFormFieldModule,
         MatInputModule,
         FormsModule,
+        MatListModule,
     ],
     exports: [GameBoardComponent, GameGridComponent],
 })

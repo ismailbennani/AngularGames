@@ -70,8 +70,10 @@
     --text-neutral: slategrey;
 
     --text-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
-    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
     --text-on-primary: #{map.get(map.get($theme, 'primary-palette'), 100)};
+
+    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
+    --text-on-secondary: #{map.get(map.get($theme, 'primary-palette'), 600)};
 
     --text-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
     --text-on-accent: #{map.get(map.get($theme, 'accent-palette'), 100)};
@@ -98,8 +100,10 @@
     --text-neutral: white;
 
     --text-primary: #{map.get(map.get($theme, 'primary-palette'), 500)};
-    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
     --text-on-primary: #{map.get(map.get($theme, 'primary-palette'), 100)};
+
+    --text-secondary: #{map.get(map.get($theme, 'primary-palette'), 200)};
+    --text-on-secondary: #{map.get(map.get($theme, 'primary-palette'), 600)};
 
     --text-accent: #{map.get(map.get($theme, 'accent-palette'), 500)};
     --text-on-accent: #{map.get(map.get($theme, 'accent-palette'), 100)};
