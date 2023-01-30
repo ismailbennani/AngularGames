@@ -1,9 +1,9 @@
 <ng-container *ngIf="gameState">
-    <app-game-grid [grid]="gameState.currentLevel.grid"></app-game-grid>
+    <app-game-grid [grid]="gameState.currentLevel?.grid"></app-game-grid>
     <div class="spacer"></div>
     <app-letters
-        [disabled]="gameState.currentLevel.gameOver !== 'not-over'"
-        [letters]="gameState.currentLevel.letters"
+        [disabled]="gameState.currentLevel?.gameOver !== 'not-over'"
+        [letters]="gameState.currentLevel?.letters ?? []"
         [longestWordSize]="longestWordSize"
         [smallestWordSize]="smallestWordSize"
         (attempt)="attempt($event)"

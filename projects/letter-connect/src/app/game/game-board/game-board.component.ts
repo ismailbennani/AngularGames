@@ -16,7 +16,7 @@ export class GameBoardComponent implements OnInit {
             return 0;
         }
 
-        return Math.max(...this.gameState.currentLevel.crossword.words.map((w) => w.word.length));
+        return Math.max(...this.gameState.currentLevel!.crossword.words.map((w) => w.word.length));
     }
 
     public get smallestWordSize(): number {
@@ -24,7 +24,7 @@ export class GameBoardComponent implements OnInit {
             return 0;
         }
 
-        return Math.min(...this.gameState.currentLevel.crossword.words.map((w) => w.word.length));
+        return Math.min(...this.gameState.currentLevel!.crossword.words.map((w) => w.word.length));
     }
 
     constructor(private gameService: GameService) {}

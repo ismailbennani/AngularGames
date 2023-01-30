@@ -5,6 +5,10 @@ import { SeededRandom } from '../../shared/helpers/random-helpers';
 
 export class Engine {
     public static attempt(gameState: GameState, word: string): AttemptResult {
+        if (!gameState.currentLevel) {
+            throw new Error('No level found');
+        }
+
         const w = gameState.currentLevel.crossword.words.find((w) => w.word == word);
         if (!w) {
             return AttemptResult.NotFound;
@@ -29,6 +33,10 @@ export class Engine {
     }
 
     public static hint(gameState: GameState) {
+        if (!gameState.currentLevel) {
+            throw new Error('No level found');
+        }
+
         const cells: GameGridCell[] = [];
 
         for (const cell of gameState.currentLevel.grid.cells.flatMap((line) => line)) {
@@ -42,6 +50,10 @@ export class Engine {
     }
 
     public static checkGameOver(gameState: GameState): GameOverResult {
+        if (!gameState.currentLevel) {
+            throw new Error('No level found');
+        }
+
         for (const cell of gameState.currentLevel.grid.cells.flatMap((line) => line)) {
             if (!cell) {
                 continue;

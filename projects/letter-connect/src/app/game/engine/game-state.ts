@@ -2,17 +2,24 @@ import { GameLevelState } from './game-level-state';
 import { SeededRandomState } from '../../shared/helpers/random-helpers';
 
 export interface GameState {
-    readonly settings: GameSettings;
+    readonly gameSettings: GameSettings;
+
     readonly worldCount: number;
-    readonly levelCount: number;
-    readonly randomStateForNextLevel: SeededRandomState;
-    readonly currentLevel: GameLevelState;
+    readonly worldSettings?: WorldSettings;
+    readonly oldWorldSettings: WorldSettings[];
+
+    readonly levelCount?: number;
+    readonly currentLevel?: GameLevelState;
+
+    readonly randomStateForNextLevel?: SeededRandomState;
 }
 
 export interface GameSettings {
-    readonly randomSeed: string;
-
     readonly easyLevelsPerWorld: number;
     readonly normalLevelsPerWorld: number;
     readonly hardLevelsPerWorld: number;
+}
+
+export interface WorldSettings {
+    readonly randomSeed: string;
 }

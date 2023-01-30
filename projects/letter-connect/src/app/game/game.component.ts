@@ -44,7 +44,7 @@ export class GameComponent implements OnInit {
     }
 
     private update(state: GameState | null) {
-        if (!state) {
+        if (!state || !state.worldSettings || !state.currentLevel) {
             this.router.navigateByUrl('/game/new').then();
             return;
         }

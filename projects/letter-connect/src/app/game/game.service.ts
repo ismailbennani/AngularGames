@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GameState } from './engine/game-state';
+import { GameSettings, GameState } from './engine/game-state';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Engine } from './engine/engine';
 import { createLevelState, GameLevelDifficulty } from './engine/game-level-state';
@@ -37,24 +37,40 @@ export class GameService {
         return this.state;
     }
 
-    public create(seed: string): GameState {
-        const random = new SeededRandom(seed);
-        const currentLevel = createLevelState(random, GameLevelDifficulty.Easy);
-
+    public create(settings?: Partial<GameSettings>): GameState {
         this.state = {
-            settings: {
-                randomSeed: seed,
+            gameSettings: {
                 easyLevelsPerWorld: 3,
                 normalLevelsPerWorld: 5,
                 hardLevelsPerWorld: 2,
+                ...settings,
             },
-            worldCount: 1,
-            levelCount: 1,
-            randomStateForNextLevel: random.serialize(),
-            currentLevel,
+            worldCount: 0,
+            oldWorldSettings: [],
         };
 
         this.notify();
+
+        return this.state;
+    }
+
+    public createWorld(seed: string): GameState {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
+        this.state = {
+            ...this.state,
+
+            worldCount: this.state.worldCount + 1,
+            worldSettings: { randomSeed: seed },
+
+            levelCount: 0,
+
+            randomStateForNextLevel: new SeededRandom(seed).serialize(),
+        };
+
+        this.next();
 
         return this.state;
     }
@@ -66,17 +82,17 @@ export class GameService {
 
         (this.state as any).levelCount++;
         if (
-            this.state.levelCount >
-            this.state.settings.easyLevelsPerWorld +
-                this.state.settings.normalLevelsPerWorld +
-                this.state.settings.hardLevelsPerWorld
+            (this.state.levelCount ?? 0) >
+            this.state.gameSettings.easyLevelsPerWorld +
+                this.state.gameSettings.normalLevelsPerWorld +
+                this.state.gameSettings.hardLevelsPerWorld
         ) {
-            (this.state as any).worldCount++;
-            (this.state as any).levelCount = 1;
+            (this.state as any).oldWorldSettings = [this.state.worldSettings, ...this.state.oldWorldSettings];
+            (this.state as any).worldSettings = undefined;
         }
 
-        const difficulty = this.getDifficulty(this.state.levelCount);
-        const random = SeededRandom.deserialize(this.state.randomStateForNextLevel);
+        const difficulty = this.getDifficulty(this.state.levelCount ?? 0);
+        const random = SeededRandom.deserialize(this.state.randomStateForNextLevel!);
         (this.state as any).currentLevel = createLevelState(random, difficulty);
 
         (this.state as any).randomStateForNextLevel = random.serialize();
@@ -123,6 +139,10 @@ export class GameService {
             throw new Error('No game found');
         }
 
+        if (!this.state.currentLevel) {
+            throw new Error('No level found');
+        }
+
         const difficulty = this.state.currentLevel.difficulty;
         const random = SeededRandom.deserialize(this.state.currentLevel.initialRandomState);
         (this.state as any).currentLevel = createLevelState(random, difficulty);
@@ -150,9 +170,12 @@ export class GameService {
             throw new Error('No game found');
         }
 
-        if (levelCount <= this.state.settings.easyLevelsPerWorld) {
+        if (levelCount <= this.state.gameSettings.easyLevelsPerWorld) {
             return GameLevelDifficulty.Easy;
-        } else if (levelCount <= this.state.settings.easyLevelsPerWorld + this.state.settings.normalLevelsPerWorld) {
+        } else if (
+            levelCount <=
+            this.state.gameSettings.easyLevelsPerWorld + this.state.gameSettings.normalLevelsPerWorld
+        ) {
             return GameLevelDifficulty.Normal;
         } else {
             return GameLevelDifficulty.Hard;

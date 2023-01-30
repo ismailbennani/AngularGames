@@ -10,14 +10,14 @@ import { LettersComponent } from './game-board/letters/letters.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NewGameComponent } from './new-game/new-game.component';
+import { NewWorldComponent } from './new-world/new-world.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-    declarations: [GameComponent, GameBoardComponent, GameGridComponent, LettersComponent, NewGameComponent],
+    declarations: [GameComponent, GameBoardComponent, GameGridComponent, LettersComponent, NewWorldComponent],
     imports: [
         CommonModule,
         GameRoutingModule,
