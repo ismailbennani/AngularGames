@@ -52,7 +52,11 @@ export class GameComponent implements OnInit {
         this.levelOver = state.currentLevel.gameOver !== GameOverResult.NotOver;
         this.won = state.currentLevel.gameOver === GameOverResult.Won;
 
-        this.title = `World ${state.worldCount} - Level ${state.levelCount}`;
+        const worldName =
+            state.worldSettings.randomSeed.length > 23
+                ? state.worldSettings.randomSeed.substring(0, 20) + '...'
+                : state.worldSettings.randomSeed;
+        this.title = `${worldName} - Level ${state.levelCount}`;
 
         const themes = this.themeService.getThemes();
         const theme = themes[(state.worldCount - 1) % themes.length];

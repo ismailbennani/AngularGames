@@ -14,12 +14,13 @@
 
         <h5 class="a-text-primary">or type a custom one</h5>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Random seed</mat-label>
-            <input #freeField matInput placeholder="Type anything..." />
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" (click)="play(freeField.value)">PLAY</button>
+        <form (submit)="play(freeField.value)">
+            <mat-form-field appearance="outline">
+                <mat-label>Random seed</mat-label>
+                <input #freeField matInput placeholder="Type anything..." />
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">PLAY</button>
+        </form>
 
         <div class="spacer"></div>
     </div>
