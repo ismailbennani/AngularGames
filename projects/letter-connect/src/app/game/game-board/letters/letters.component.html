@@ -14,6 +14,7 @@
     <div *ngFor="let letter of currentWord; let index = index" class="letter-cell">
         <button
             mat-icon-button
+            [disableRipple]="true"
             (keydown.enter)="$event.preventDefault()"
             [disabled]="disabled"
             (click)="removeLetter(index)"
@@ -51,6 +52,7 @@
             >
                 <button
                     mat-icon-button
+                    [disableRipple]="true"
                     (keydown.enter)="$event.preventDefault()"
                     [disabled]="disabled"
                     (click)="addLetter(letter)"
