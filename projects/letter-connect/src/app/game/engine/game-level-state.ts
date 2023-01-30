@@ -1,7 +1,7 @@
 import { Bounds, Crossword, Word } from './crossword';
 import { pickAtRandom, shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
-import dictionaryFr from '../../../assets/dictionary-fr';
+import dictionaryFr from '../content/dictionary-fr';
 import { GameOverResult } from './engine';
 import { SeededRandom, SeededRandomState } from '../../shared/helpers/random-helpers';
 
