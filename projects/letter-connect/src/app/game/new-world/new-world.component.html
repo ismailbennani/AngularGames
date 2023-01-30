@@ -2,8 +2,8 @@
     <div class="container">
         <div class="spacer"></div>
 
-        <h1 class="a-text-primary">New World</h1>
-        <h2 class="a-text-primary">Pick a random seed</h2>
+        <h1 class="a-text-primary">Nouveau Monde</h1>
+        <h3 class="a-text-primary">Sélectionner un nom</h3>
 
         <mat-action-list>
             <a mat-list-item (click)="play(seed)" *ngFor="let seed of seeds">
@@ -13,14 +13,14 @@
 
         <div class="spacer"></div>
 
-        <h5 class="a-text-primary">or type a custom one</h5>
+        <h5 class="a-text-primary">ou taper un nom personnalisé</h5>
 
         <form (submit)="play(freeField.value)">
             <mat-form-field appearance="outline">
-                <mat-label>Random seed</mat-label>
-                <input #freeField matInput placeholder="Type anything..." />
+                <mat-label>Nom personnalisé</mat-label>
+                <input #freeField matInput placeholder="Entrer un nom..." />
             </mat-form-field>
-            <button mat-raised-button color="primary" type="submit">PLAY</button>
+            <button mat-raised-button color="primary" type="submit">JOUER</button>
         </form>
 
         <div class="spacer"></div>

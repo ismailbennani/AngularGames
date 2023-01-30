@@ -23,7 +23,7 @@ export class NewWorldComponent implements OnInit {
             game = this.gameService.create();
         }
 
-        this.title = 'World ' + game.worldCount;
+        this.title = 'Monde ' + game.worldCount;
 
         const words = nouns;
         this.seeds = [];
@@ -34,6 +34,11 @@ export class NewWorldComponent implements OnInit {
     }
 
     public play(seed: string) {
+        if (!seed) {
+            const word = pickAtRandom(SeededRandom.create(), nouns);
+            seed = word[0].toUpperCase() + word.substring(1);
+        }
+
         this.gameService.createWorld(seed);
         this.router.navigateByUrl('/game').then();
     }

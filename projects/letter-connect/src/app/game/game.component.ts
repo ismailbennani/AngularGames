@@ -52,11 +52,12 @@ export class GameComponent implements OnInit {
         this.levelOver = state.currentLevel.gameOver !== GameOverResult.NotOver;
         this.won = state.currentLevel.gameOver === GameOverResult.Won;
 
+        const maxLength = 13;
         const worldName =
-            state.worldSettings.randomSeed.length > 23
-                ? state.worldSettings.randomSeed.substring(0, 20) + '...'
+            state.worldSettings.randomSeed.length > maxLength
+                ? state.worldSettings.randomSeed.substring(0, maxLength - 3) + '...'
                 : state.worldSettings.randomSeed;
-        this.title = `${worldName} - Level ${state.levelCount}`;
+        this.title = `Monde ${worldName} - Niveau ${state.levelCount}`;
     }
 
     @HostListener('window:keyup.enter', ['$event'])
