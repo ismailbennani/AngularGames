@@ -80,6 +80,10 @@ export class GameService {
             throw new Error('No game found');
         }
 
+        if (!this.state.worldSettings) {
+            throw new Error('No world found');
+        }
+
         (this.state as any).levelCount++;
         if (
             (this.state.levelCount ?? 0) >
