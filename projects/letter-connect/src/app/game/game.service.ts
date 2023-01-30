@@ -3,6 +3,7 @@ import { GameState } from './engine/game-state';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Engine } from './engine/engine';
 import { createLevelState, GameLevelDifficulty } from './engine/game-level-state';
+import { SeededRandom } from '../shared/helpers/random-helpers';
 
 @Injectable({
     providedIn: 'root',
@@ -23,24 +24,36 @@ export class GameService {
         return !!localStorage.getItem(GameService.LocalStoreKey);
     }
 
-    public getOrCreate(): GameState {
+    public get(): GameState | null {
         const stateStr = localStorage.getItem(GameService.LocalStoreKey);
-        if (stateStr) {
-            this.state = JSON.parse(stateStr) as GameState;
-        } else {
-            const currentLevel = createLevelState(GameLevelDifficulty.Easy);
-
-            this.state = {
-                settings: {
-                    easyLevelsPerWorld: 3,
-                    normalLevelsPerWorld: 5,
-                    hardLevelsPerWorld: 2,
-                },
-                worldCount: 1,
-                levelCount: 1,
-                currentLevel,
-            };
+        if (!stateStr) {
+            return null;
         }
+
+        this.state = JSON.parse(stateStr) as GameState;
+
+        this.notify();
+
+        return this.state;
+    }
+
+    public create(seed: string): GameState {
+        const currentLevel = createLevelState(GameLevelDifficulty.Easy);
+
+        const random = new SeededRandom(seed);
+
+        this.state = {
+            settings: {
+                randomSeed: seed,
+                randomState: random.serialize(),
+                easyLevelsPerWorld: 3,
+                normalLevelsPerWorld: 5,
+                hardLevelsPerWorld: 2,
+            },
+            worldCount: 1,
+            levelCount: 1,
+            currentLevel,
+        };
 
         this.notify();
 

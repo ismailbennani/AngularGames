@@ -148,6 +148,15 @@ function canAddWord(words: Word[], word: Word): boolean {
                 height: word.bounds.height,
             };
 
+            console.log(word.word);
+            console.log(topBounds, bottomBounds, leftBounds, rightBounds);
+            console.log(
+                boundsOverlap(topBounds, otherWord.bounds),
+                boundsOverlap(bottomBounds, otherWord.bounds),
+                boundsOverlap(leftBounds, otherWord.bounds),
+                boundsOverlap(rightBounds, otherWord.bounds)
+            );
+
             if (
                 boundsOverlap(topBounds, otherWord.bounds) ||
                 boundsOverlap(bottomBounds, otherWord.bounds) ||

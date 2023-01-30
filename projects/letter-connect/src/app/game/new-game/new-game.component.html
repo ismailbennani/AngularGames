@@ -1,0 +1,21 @@
+<app-main-layout [title]="'NEW GAME'">
+    <div class="container">
+        <div class="spacer"></div>
+
+        <h1 class="a-text-primary">Pick random seed</h1>
+
+        <div class="spacer"></div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Random seed</mat-label>
+            <textarea matInput rows="10" placeholder="Type any sentence..." [(ngModel)]="seed"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [disabled]="true">Randomize</button>
+
+        <div class="spacer"></div>
+
+        <button mat-raised-button color="primary" (click)="play()">PLAY</button>
+
+        <div class="spacer"></div>
+    </div>
+</app-main-layout>

@@ -1,4 +1,5 @@
 import { GameLevelState } from './game-level-state';
+import { SeededRandomState } from '../../shared/helpers/random-helpers';
 
 export interface GameState {
     readonly settings: GameSettings;
@@ -8,6 +9,9 @@ export interface GameState {
 }
 
 export interface GameSettings {
+    readonly randomSeed: string;
+    readonly randomState: SeededRandomState;
+
     readonly easyLevelsPerWorld: number;
     readonly normalLevelsPerWorld: number;
     readonly hardLevelsPerWorld: number;

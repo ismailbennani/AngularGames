@@ -1,4 +1,4 @@
-import { Component, isDevMode } from '@angular/core';
+import { Component, Input, isDevMode } from '@angular/core';
 import { GameService } from '../../game/game.service';
 import { Observable } from 'rxjs';
 import { TitleService } from './title/title.service';
@@ -10,6 +10,14 @@ import { ThemeService } from './theme/theme.service';
     styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent {
+    @Input()
+    get title(): string {
+        return this.titleService.current;
+    }
+    set title(value: string) {
+        this.titleService.set(value);
+    }
+
     public get title$(): Observable<string> {
         return this.titleService.title$;
     }
