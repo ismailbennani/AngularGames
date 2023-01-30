@@ -4,7 +4,9 @@
     </div>
     <div class="separator"></div>
     <div class="bottom">
-        <button mat-raised-button color="primary" (click)="continue()" *ngIf="canContinue">Continue</button>
-        <button mat-raised-button color="primary" (click)="newGame()">New Game</button>
+        <button mat-raised-button color="primary" class="a-text-single-line" (click)="continue()" *ngIf="canContinue">
+            Continue
+        </button>
+        <button mat-raised-button color="primary" class="a-text-single-line" (click)="newGame()">New Game</button>
     </div>
 </div>

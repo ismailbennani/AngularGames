@@ -1,5 +1,9 @@
-a-text {
+.a-text {
     &-primary {
         color: var(--text-primary);
+    }
+
+    &-single-line {
+        white-space: nowrap;
     }
 }
