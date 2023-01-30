@@ -38,20 +38,19 @@ export class GameService {
     }
 
     public create(seed: string): GameState {
-        const currentLevel = createLevelState(GameLevelDifficulty.Easy);
-
         const random = new SeededRandom(seed);
+        const currentLevel = createLevelState(random, GameLevelDifficulty.Easy);
 
         this.state = {
             settings: {
                 randomSeed: seed,
-                randomState: random.serialize(),
                 easyLevelsPerWorld: 3,
                 normalLevelsPerWorld: 5,
                 hardLevelsPerWorld: 2,
             },
             worldCount: 1,
             levelCount: 1,
+            randomStateForNextLevel: random.serialize(),
             currentLevel,
         };
 
@@ -77,7 +76,10 @@ export class GameService {
         }
 
         const difficulty = this.getDifficulty(this.state.levelCount);
-        (this.state as any).currentLevel = createLevelState(difficulty);
+        const random = SeededRandom.deserialize(this.state.randomStateForNextLevel);
+        (this.state as any).currentLevel = createLevelState(random, difficulty);
+
+        (this.state as any).randomStateForNextLevel = random.serialize();
 
         this.notify();
     }
@@ -114,6 +116,20 @@ export class GameService {
         (this.state.currentLevel as any).gameOver = result;
 
         return result;
+    }
+
+    public regenerateCurrentLevel(): GameState {
+        if (!this.state) {
+            throw new Error('No game found');
+        }
+
+        const difficulty = this.state.currentLevel.difficulty;
+        const random = SeededRandom.deserialize(this.state.currentLevel.initialRandomState);
+        (this.state as any).currentLevel = createLevelState(random, difficulty);
+
+        this.notify();
+
+        return this.state;
     }
 
     private notify() {

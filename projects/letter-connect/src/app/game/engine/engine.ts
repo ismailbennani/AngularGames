@@ -1,6 +1,7 @@
 import { GameState } from './game-state';
 import { GameGridCell } from './game-level-state';
 import { pickAtRandom } from '../../shared/helpers/array-helpers';
+import { SeededRandom } from '../../shared/helpers/random-helpers';
 
 export class Engine {
     public static attempt(gameState: GameState, word: string): AttemptResult {
@@ -36,7 +37,7 @@ export class Engine {
             }
         }
 
-        const randomCell = pickAtRandom(cells);
+        const randomCell = pickAtRandom(SeededRandom.create(), cells);
         this.discoverCell(randomCell);
     }
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { shuffle } from '../../../shared/helpers/array-helpers';
+import { SeededRandom } from '../../../shared/helpers/random-helpers';
 
 @Component({
     selector: 'app-letters',
@@ -110,7 +111,7 @@ export class LettersComponent implements OnInit {
 
     public shuffleLetters() {
         this.clear();
-        this._letters = shuffle(this._letters);
+        this._letters = shuffle(SeededRandom.create(), this._letters);
     }
 
     public askHint() {

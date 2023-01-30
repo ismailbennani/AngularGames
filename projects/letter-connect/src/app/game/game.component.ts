@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, isDevMode, OnInit } from '@angular/core';
 import { GameService } from './game.service';
 import { GameOverResult } from './engine/engine';
 import { GameState } from './engine/game-state';
@@ -25,7 +25,11 @@ export class GameComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const game = this.gameService.get();
+        let game = this.gameService.get();
+
+        if (game && isDevMode()) {
+            game = this.gameService.regenerateCurrentLevel();
+        }
 
         this.update(game);
         this.gameService.state$.subscribe((s) => this.update(s));

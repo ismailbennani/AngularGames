@@ -39,10 +39,14 @@ export class SeededRandom {
         return { state: this.state };
     }
 
-    public deserialize(state: SeededRandomState) {
+    public static deserialize(state: SeededRandomState) {
         const result = new SeededRandom('');
         result.state = state.state;
         return result;
+    }
+
+    public static create() {
+        return new SeededRandom(Math.random().toString());
     }
 }
 

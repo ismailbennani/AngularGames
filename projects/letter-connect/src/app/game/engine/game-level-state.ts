@@ -3,8 +3,10 @@ import { pickAtRandom, shuffle } from '../../shared/helpers/array-helpers';
 import { generateCrossword } from './crossword-generator';
 import dictionaryFr from '../../../assets/dictionary-fr';
 import { GameOverResult } from './engine';
+import { SeededRandom, SeededRandomState } from '../../shared/helpers/random-helpers';
 
 export interface GameLevelState {
+    readonly initialRandomState: SeededRandomState;
     readonly difficulty: GameLevelDifficulty;
     readonly settings: GameLevelSettings;
     readonly crossword: Crossword;
@@ -37,8 +39,10 @@ interface GameLevelSettings {
     readonly maxNumberOfWords: number;
 }
 
-export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelState => {
+export const createLevelState = (random: SeededRandom, difficulty: GameLevelDifficulty): GameLevelState => {
     console.log('Generating level...');
+
+    const initialRandomState = random.serialize();
 
     let crosswordTries = 0;
     let crosswordMaxTries = 100;
@@ -55,7 +59,7 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
         while (!areValidSettings(settings, validWords) && settingsTries < settingsMaxTries) {
             console.log(`Generating settings (${settingsTries + 1}/${settingsMaxTries})`);
 
-            settings = getSettings(difficulty);
+            settings = getSettings(random, difficulty);
 
             const dictionary = getDictionary();
             const normalizedLetters = normalizeWord(''.concat(...settings.letters));
@@ -71,7 +75,10 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
             console.log('Found valid settings', settings);
             console.log('Valid words', validWords);
 
-            crossword = generateCrossword({ dictionary: validWords, maxNumberOfWords: settings.maxNumberOfWords });
+            crossword = generateCrossword(random, {
+                dictionary: validWords,
+                maxNumberOfWords: settings.maxNumberOfWords,
+            });
             if (crossword.words.length >= settings.minNumberOfWords) {
                 break;
             }
@@ -96,11 +103,12 @@ export const createLevelState = (difficulty: GameLevelDifficulty): GameLevelStat
     const grid = createGameGrid(crossword!);
 
     const level: GameLevelState = {
+        initialRandomState,
         difficulty,
         settings: settings!,
         crossword: crossword!,
         grid,
-        letters: shuffle(letters),
+        letters: shuffle(SeededRandom.create(), letters),
         gameOver: GameOverResult.NotOver,
     };
 
@@ -191,7 +199,7 @@ function areValidSettings(
     return !!settings && validWords.length >= settings.maxNumberOfWords;
 }
 
-function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
+function getSettings(random: SeededRandom, difficulty: GameLevelDifficulty): GameLevelSettings {
     let numberOfLetters: number;
     let minNumberOfWords: number;
     let maxNumberOfWords: number;
@@ -215,7 +223,7 @@ function getSettings(difficulty: GameLevelDifficulty): GameLevelSettings {
 
     const letters = [];
     while (letters.length < numberOfLetters) {
-        letters.push(pickAtRandom(alphabet));
+        letters.push(pickAtRandom(random, alphabet));
     }
 
     return {

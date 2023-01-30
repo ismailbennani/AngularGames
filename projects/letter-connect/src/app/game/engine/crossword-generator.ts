@@ -1,7 +1,8 @@
 import { Bounds, boundsOverlap, Crossword, Word } from './crossword';
 import { pickAtRandom, shuffle } from '../../shared/helpers/array-helpers';
+import { SeededRandom } from '../../shared/helpers/random-helpers';
 
-export const generateCrossword = (settings: CrosswordGeneratorSettings): Crossword => {
+export const generateCrossword = (random: SeededRandom, settings: CrosswordGeneratorSettings): Crossword => {
     console.log('Generating crossword with settings...', settings);
 
     if (!settings.dictionary.length) {
@@ -15,9 +16,9 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
     // pick first word
     const longestWordSize = Math.max(...dictionary.map((w) => w.length));
     const longestWords = dictionary.filter((w) => w.length == longestWordSize);
-    const oneOfLongestWords = shuffle(longestWords)[0];
+    const oneOfLongestWords = shuffle(random, longestWords)[0];
     const bounds = getValidBounds(words, oneOfLongestWords, longerWordHoriz);
-    words.push({ word: oneOfLongestWords, horiz: longerWordHoriz, bounds: pickAtRandom(bounds) });
+    words.push({ word: oneOfLongestWords, horiz: longerWordHoriz, bounds: pickAtRandom(random, bounds) });
     removeAllMatches(dictionary, oneOfLongestWords);
 
     // pick other words
@@ -27,7 +28,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
     while (dictionary.length > 0 && words.length < settings.maxNumberOfWords && tries < maxTries) {
         tries++;
 
-        const wordIndex = Math.floor(Math.random() * dictionary.length);
+        const wordIndex = Math.floor(random.rand() * dictionary.length);
         const word = dictionary[wordIndex];
 
         const bounds: Bounds[] = getValidBounds(words, word, horiz);
@@ -38,7 +39,7 @@ export const generateCrossword = (settings: CrosswordGeneratorSettings): Crosswo
 
         removeAllMatches(dictionary, word);
 
-        words.push({ word, horiz, bounds: pickAtRandom(bounds) });
+        words.push({ word, horiz, bounds: pickAtRandom(random, bounds) });
 
         horiz = !horiz;
     }

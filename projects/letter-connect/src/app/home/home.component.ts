@@ -3,6 +3,7 @@ import { createGameGrid, discoverWord, GameGrid } from '../game/engine/game-leve
 import { CrosswordGeneratorSettings, generateCrossword } from '../game/engine/crossword-generator';
 import { GameService } from '../game/game.service';
 import { Router } from '@angular/router';
+import { SeededRandom } from '../shared/helpers/random-helpers';
 
 @Component({
     selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
             maxNumberOfWords: 2,
         };
 
-        const crossword = generateCrossword(settings);
+        const crossword = generateCrossword(SeededRandom.create(), settings);
         this.grid = createGameGrid(crossword);
 
         console.log('Grid', this.grid);
